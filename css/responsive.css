@@ -1,500 +1,381 @@
-/* RESPONSIVE.CSS - Media Queries Específicas */
+/* ===========================================
+   SOULINK - RESPONSIVE CSS CORREGIDO
+   Mobile-first - NO afecta escritorio (>992px)
+   Versión limpia y específica
+=========================================== */
 
-/* ===== DISPOSITIVOS PEQUEÑOS (móviles) ===== */
-@media (max-width: 576px) {
-    /* Ajustes generales */
-    body {
-        padding-top: 60px;
-    }
-    
-    /* Navegación */
+/* ===== PARTE 1: SOLO MÓVILES (0px - 767px) ===== */
+@media (max-width: 767.98px) {
+  
+  /* 1.1 NAVBAR MÓVIL */
+  .navbar {
+    padding: 10px 0;
+  }
+  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-brand img {
+    height: 35px;
+    width: auto;
+  }
+  
+  .brand-name {
+    font-size: 1.3rem;
+    margin-left: 8px;
+  }
+  
+  /* Hamburguesa */
+  .navbar-toggler {
+    padding: 6px 10px;
+    border: 2px solid #8C52FF;
+    border-radius: 5px;
+  }
+  
+  .navbar-toggler-icon {
+    width: 1em;
+    height: 1em;
+  }
+  
+  /* Menú desplegable */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 15px;
+    right: 15px;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 1000;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  
+  .nav-link {
+    padding: 12px 15px !important;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav-link:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-link i {
+    width: 25px;
+    margin-right: 10px;
+  }
+  
+  .dropdown-menu {
+    background: transparent;
+    border: none;
+    padding-left: 25px;
+  }
+  
+  .dropdown-item {
+    padding: 8px 15px !important;
+  }
+  
+  /* 1.2 HERO MÓVIL */
+  .hero, .hero-about, .hero-community, .hero-contact, .hero-collaborations, .hero-services {
+    padding: 50px 0 !important;
+    padding-top: 100px !important;
+    text-align: center;
+  }
+  
+  .hero h1.display-4 {
+    font-size: 1.8rem !important;
+  }
+  
+  .hero p.lead {
+    font-size: 1rem !important;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  /* 1.3 SERVICIOS MÓVIL (2 por fila) */
+  .quick-services .col-md-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .service-card {
+    height: auto;
+    min-height: 200px;
+    padding: 15px;
+  }
+  
+  .service-card i.fa-3x {
+    font-size: 2rem;
+  }
+  
+  /* 1.4 ESTADÍSTICAS MÓVIL (2 por fila) */
+  .stats .col-md-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    margin-bottom: 20px;
+  }
+  
+  .stats h3.display-4 {
+    font-size: 2rem;
+  }
+  
+  /* 1.5 BOTÓN EMERGENCIA MÓVIL */
+  .emergency-btn {
+    bottom: 15px;
+    right: 15px;
+  }
+  
+  .chatbot-icon {
+    width: 45px;
+    height: 45px;
+    position: static !important;
+    margin: 0 auto 5px auto !important;
+    display: block;
+  }
+  
+  .btn-emergency {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+    flex-direction: column;
+    min-width: 150px;
+  }
+  
+  /* 1.6 FOOTER MÓVIL */
+  .footer .col-md-4,
+  .footer .col-md-3,
+  .footer .col-md-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  
+  .social-icons {
+    justify-content: center;
+  }
+  
+  .footer .text-md-right {
+    text-align: center !important;
+  }
+  
+  /* 1.7 EQUIPO MÓVIL */
+  .team-card {
+    max-width: 280px;
+    margin: 0 auto 20px auto;
+  }
+  
+  .team-avatar img {
+    width: 90px;
+    height: 90px;
+  }
+  
+  /* 1.8 FORMULARIOS MÓVIL */
+  .form-container {
+    padding: 20px 15px;
+    width: 100%;
+  }
+  
+  .form-control {
+    font-size: 16px;
+  }
+  
+  /* 1.9 SECCIÓN EMERGENCIA MÓVIL */
+  #emergencia .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .emergency-card {
+    padding: 20px;
+    text-align: center;
+  }
+}
+
+/* ===== PARTE 2: TABLETS (768px - 991px) ===== */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  
+  /* 2.1 NAVBAR TABLET */
+  .navbar-brand img {
+    height: 40px;
+  }
+  
+  .brand-name {
+    font-size: 1.4rem;
+  }
+  
+  .nav-link {
+    padding: 10px 12px !important;
+    font-size: 0.95rem;
+  }
+  
+  /* 2.2 HERO TABLET */
+  .hero h1.display-4 {
+    font-size: 2.2rem !important;
+  }
+  
+  /* 2.3 SERVICIOS TABLET (2 por fila) */
+  .quick-services .col-md-3 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  /* 2.4 EQUIPO TABLET (3 por fila) */
+  .team-card {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+  
+  /* 2.5 FOOTER TABLET */
+  .footer .col-md-4 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .footer .col-md-3 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+  }
+  
+  .footer .col-md-2 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+
+/* ===== PARTE 3: ESCRITORIO (992px+) ===== */
+/* IMPORTANTE: NO PONER NADA AQUÍ que afecte el diseño de escritorio */
+/* Solo ajustes mínimos si son necesarios */
+
+@media (min-width: 992px) {
+  /* Mantener diseño original de escritorio */
+  /* Solo ajustes de contenedor máximo */
+  .container {
+    max-width: 1140px;
+  }
+}
+
+/* ===== FIXES GLOBALES (sin media query) ===== */
+
+/* A. Imágenes responsivas */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* B. Tablas scroll en móvil */
+@media (max-width: 767.98px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* C. Touch-friendly para móvil */
+@media (hover: none) and (pointer: coarse) {
+  .btn, .nav-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* D. Fix iOS */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}
+
+/* E. Ocultar/mostrar elementos */
+@media (max-width: 767.98px) {
+  .d-mobile-hidden {
+    display: none !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .d-mobile-only {
+    display: none !important;
+  }
+}
+
+/* F. Scrollbar bonito */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 4px;
+}
+/* ===== FIX: LOGO NAVBAR EN ESCRITORIO ===== */
+
+/* 1. RESTAURAR TAMAÑO ORIGINAL EN ESCRITORIO */
+@media (min-width: 992px) {
     .navbar-brand img {
-        height: 30px;
+        height: 40px !important; /* Tamaño original */
+        width: auto !important;
     }
     
     .brand-name {
-        font-size: 1.2rem;
+        font-size: 1.5rem !important; /* Tamaño original */
+        margin-left: 10px !important;
     }
     
-    /* Hero sections */
-    .hero, 
-    .hero-about, 
-    .hero-community, 
-    .hero-contact, 
-    .hero-collaborations, 
-    .hero-services {
-        padding: 60px 0;
-        padding-top: 120px;
-    }
-    
-    .hero h1,
-    .hero-about h1,
-    .hero-community h1,
-    .hero-contact h1,
-    .hero-collaborations h1,
-    .hero-services h1 {
-        font-size: 2rem;
-    }
-    
-    /* Botones */
-    .hero-buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn-lg {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-    
-    /* Botón de emergencia */
-    .emergency-btn {
-        bottom: 10px;
-        right: 10px;
-    }
-    
-    .btn-emergency {
-        padding: 10px 15px;
-        font-size: 0.8rem;
-    }
-    
-    /* Tarjetas */
-    .card {
-        margin-bottom: 15px;
-    }
-    
-    /* Testimonios */
-    .testimonial-card {
-        padding: 20px;
-        margin: 10px;
-    }
-    
-    /* Footer */
-    .footer .row > div {
-        margin-bottom: 20px;
-    }
-    
-    /* Equipo */
-    .team-card {
-        padding: 15px;
-    }
-    
-    .team-avatar img {
-        width: 100px;
-        height: 100px;
-    }
-    
-    /* Navegación de servicios */
-    .services-nav {
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 10px;
-    }
-    
-    .service-nav-link {
-        font-size: 0.9rem;
-        padding: 8px 12px;
+    .navbar {
+        padding: 0.5rem 1rem !important; /* Bootstrap default */
     }
 }
 
-/* ===== DISPOSITIVOS MEDIANOS (tablets) ===== */
-@media (min-width: 577px) and (max-width: 768px) {
-    /* Hero sections */
-    .hero, 
-    .hero-about, 
-    .hero-community, 
-    .hero-contact, 
-    .hero-collaborations, 
-    .hero-services {
-        padding: 80px 0;
-        padding-top: 140px;
-    }
-    
-    .hero h1,
-    .hero-about h1,
-    .hero-community h1,
-    .hero-contact h1,
-    .hero-collaborations h1,
-    .hero-services h1 {
-        font-size: 2.5rem;
-    }
-    
-    /* Grid ajustes */
-    .col-md-6, .col-md-4, .col-md-3 {
-        margin-bottom: 20px;
-    }
-    
-    /* Formularios */
-    .form-container {
-        padding: 20px;
-    }
-    
-    /* Chat */
-    .chat-window {
-        height: 350px;
-    }
-}
-
-/* ===== DISPOSITIVOS GRANDES (laptops) ===== */
-@media (min-width: 769px) and (max-width: 992px) {
-    /* Ajustes menores */
-    .container {
-        max-width: 95%;
-    }
-    
-    /* Equipo */
-    .team-card {
-        padding: 20px;
-    }
-    
-    /* Foro */
-    .forum-post {
-        padding: 15px;
-    }
-}
-
-/* ===== PANTALLAS MUY GRANDES ===== */
-@media (min-width: 1200px) {
-    .container {
-        max-width: 1140px;
-    }
-}
-
-/* ===== ORIENTACIÓN LANDSCAPE ===== */
-@media (max-height: 500px) and (orientation: landscape) {
-    /* Ajustes para móviles en landscape */
-    .hero, 
-    .hero-about, 
-    .hero-community, 
-    .hero-contact, 
-    .hero-collaborations, 
-    .hero-services {
-        padding: 40px 0;
-        padding-top: 100px;
-        min-height: auto;
-    }
-    
-    .emergency-btn {
-        bottom: 5px;
-        right: 5px;
-    }
-}
-
-/* ===== IMPRESIÓN ===== */
-@media print {
-    .emergency-btn,
-    .navbar,
-    .footer,
-    .btn {
-        display: none !important;
-    }
-    
-    body {
-        padding-top: 0;
-        color: #000;
-    }
-    
-    a {
-        color: #000;
-        text-decoration: underline;
-    }
-}
-
-/* ===== DARK MODE SUPPORT - VERSIÓN CORREGIDA ===== */
-@media (prefers-color-scheme: dark) {
-    /* Solo aplicar dark mode si el usuario lo tiene activado en el sistema */
-    /* Pero NO aplicarlo directamente al body para evitar conflictos */
-    
-    /* En lugar de cambiar todo el body, solo ajustamos elementos específicos */
-    .dark-mode-enabled {
-        background-color: #121212;
-        color: #e0e0e0;
-    }
-    
-    .dark-mode-enabled .card,
-    .dark-mode-enabled .form-container,
-    .dark-mode-enabled .testimonial-card,
-    .dark-mode-enabled .team-card,
-    .dark-mode-enabled .service-card {
-        background-color: #1e1e1e;
-        color: #e0e0e0;
-        border-color: #333;
-    }
-    
-    .dark-mode-enabled .form-control {
-        background-color: #2d2d2d;
-        border-color: #444;
-        color: #e0e0e0;
-    }
-    
-    .dark-mode-enabled .text-muted {
-        color: #aaa !important;
-    }
-    
-    .dark-mode-enabled .navbar {
-        background-color: #1e1e1e !important;
-        border-color: #333;
-    }
-    
-    .dark-mode-enabled .footer {
-        background-color: #1a1a1a !important;
-    }
-    
-    .dark-mode-enabled .hero {
-        background: linear-gradient(135deg, #3a506b 0%, #1c2541 100%) !important;
-    }
-    
-    .dark-mode-enabled .hero-about {
-        background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%) !important;
-    }
-    
-    .dark-mode-enabled .hero-services {
-        background: linear-gradient(135deg, #2a4365 0%, #1a365d 100%) !important;
-    }
-    
-    .dark-mode-enabled .hero-community {
-        background: linear-gradient(135deg, #742a2a 0%, #4a1f1f 100%) !important;
-    }
-    
-    .dark-mode-enabled .hero-contact {
-        background: linear-gradient(135deg, #22543d 0%, #1a4731 100%) !important;
-    }
-    
-    .dark-mode-enabled .hero-collaborations {
-        background: linear-gradient(135deg, #744210 0%, #5a380c 100%) !important;
-    }
-}
-
-/* ===== ALTA CONTRASTE ===== */
-@media (prefers-contrast: high) {
-    .high-contrast {
-        --primary-color: #0056b3;
-        --danger-color: #b30000;
-    }
-    
-    .high-contrast .btn-primary {
-        border: 2px solid #000;
-    }
-}
-
-/* ===== REDUCCIÓN DE MOVIMIENTO ===== */
-@media (prefers-reduced-motion: reduce) {
-    .reduced-motion *,
-    .reduced-motion *::before,
-    .reduced-motion *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .reduced-motion .btn-emergency,
-    .reduced-motion .featured-badge {
-        animation: none;
-    }
-    
-    .reduced-motion .team-card:hover,
-    .reduced-motion .service-card:hover {
-        transform: none;
-    }
-}
-
-/* ===== AJUSTES ESPECÍFICOS PARA COMPONENTES ===== */
-
-/* Navegación de servicios en móvil */
-@media (max-width: 768px) {
-    .services-nav {
-        display: flex;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Firefox */
-    }
-    
-    .services-nav::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera */
-    }
-    
-    .service-nav-link {
-        flex: 0 0 auto;
-        padding: 10px 15px;
-        white-space: nowrap;
-    }
-}
-
-/* Chat en móvil */
-@media (max-width: 576px) {
-    .chat-window {
-        height: 300px;
-        margin: 0 -15px;
-        border-radius: 0;
-    }
-    
-    .message {
-        max-width: 90%;
-    }
-}
-
-/* Formularios de tests en móvil */
-@media (max-width: 768px) {
-    .test-card {
-        padding: 15px;
-    }
-    
-    .test-navigation {
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .test-navigation .btn {
-        flex: 1;
-        margin: 0 5px;
-    }
-}
-
-/* Mapa en móvil */
-@media (max-width: 768px) {
-    #mapContainer {
-        height: 300px;
-    }
-}
-
-/* Tablas responsive */
-@media (max-width: 768px) {
-    .table-responsive {
-        border: 0;
-    }
-    
-    .table-responsive table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    
-    .table-responsive thead {
-        display: none;
-    }
-    
-    .table-responsive tr {
-        display: block;
-        margin-bottom: 15px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-    
-    .table-responsive td {
-        display: block;
-        text-align: right;
-        border-bottom: 1px solid #ddd;
-        position: relative;
-        padding-left: 50%;
-    }
-    
-    .table-responsive td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: 0;
-        width: 45%;
-        padding-left: 15px;
-        font-weight: bold;
-        text-align: left;
-    }
-}
-
-/* Modal responsive */
-@media (max-width: 768px) {
-    .modal-dialog {
-        margin: 10px;
-    }
-    
-    .modal-content {
-        border-radius: 10px;
-    }
-}
-
-/* Ajustes para tablets en landscape */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-    .hero-buttons {
-        flex-direction: row;
-    }
-    
-    .team-avatar img {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-/* Ajustes específicos para Safari iOS */
-@supports (-webkit-touch-callout: none) {
-    .hero,
-    .hero-about,
-    .hero-community,
-    .hero-contact,
-    .hero-collaborations,
-    .hero-services {
-        /* Safari tiene un comportamiento diferente con vh */
-        min-height: -webkit-fill-available;
-    }
-}
-
-/* ===== ESTILOS PARA LA PÁGINA DE SERVICIOS ===== */
-@media (max-width: 768px) {
-    /* Ajustes específicos para la navegación de servicios */
-    .services-nav-wrapper {
-        background: #f8f9fa;
-        padding: 10px 0;
-        position: sticky;
-        top: 60px;
-        z-index: 990;
-    }
-    
-    .service-nav-link {
-        background: white;
-        border: 1px solid #dee2e6;
-        border-radius: 20px;
-        margin: 0 5px;
-        color: #495057;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-    
-    .service-nav-link.active {
-        background: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-    }
-    
-    /* Ajustes para las tarjetas de servicios */
-    .service-section .card {
-        border: 1px solid rgba(0,0,0,0.1);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-}
-
-/* ===== SOLUCIÓN ALTERNATIVA: DESACTIVAR DARK MODE POR DEFECTO ===== */
-/* Si prefieres no usar dark mode automático, comenta esta sección: */
-
+/* 2. LIMPIAR ESTILOS GLOBALES QUE AFECTAN ESCRITORIO */
+/* Si tienes esto, ELIMÍNALO o ponlo solo en móvil: */
 /*
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .card,
-    .form-container,
-    .testimonial-card,
-    .team-card,
-    .service-card {
-        background-color: white !important;
-        color: #333 !important;
-    }
-    
-    .form-control {
-        background-color: white !important;
-        border-color: #dee2e6 !important;
-        color: #333 !important;
-    }
-    
-    .text-muted {
-        color: #6c757d !important;
-    }
+.navbar-brand img {  ← ESTO AFECTA WEB
+    height: 35px;
 }
 */
+
+/* 3. ESTILOS SOLO PARA MÓVIL (0-767px) */
+@media (max-width: 767.98px) {
+    .navbar-brand img {
+        height: 35px;
+        width: auto;
+    }
+    
+    .brand-name {
+        font-size: 1.3rem;
+        margin-left: 8px;
+    }
+}
+
+/* 4. ESTILOS SOLO PARA TABLET (768-991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .navbar-brand img {
+        height: 38px;
+    }
+    
+    .brand-name {
+        font-size: 1.4rem;
+    }
+}
