@@ -137,3 +137,14 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# ========================================================================================= Quitar .DS_Store y package-lock.json ====================================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._.DS_Store
+.Spotlight-V100
+.Trashes
+
+
