@@ -34,6 +34,11 @@
 [![🔗 Ingresar a Soulink](https://img.shields.io/badge/🔗_Ingresar_a_Soulink-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/)
 
 </div>
+<div align="center">
+
+[![🔗 Ingresar a Soulink como Administrador](https://img.shields.io/badge/🔗_Ingresar_a_Soulink_Como_Administrador-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/pages/admin)
+
+</div>
 
 ## 📋 ¿Qué es Soulink?
 **SOULINK es una plataforma segura de apoyo emocional preventivo.** 
@@ -268,6 +273,7 @@ proyecto-soulink/
 ## 📸 Screenshot 14 - DER Soulink
 
 ![DER Soulink](frontend/assets/images/DER_soulink.png)
+
 
 
 
