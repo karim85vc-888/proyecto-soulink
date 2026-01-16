@@ -5,7 +5,7 @@
         "descripcion": "Osito de crochet hecho a mano con lana suave, perfecto para abrazar.",
         "precio": 14990,
         "categoria": "amigurumis",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Amigurumis/amigurumi1.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Amigurumis/amigurumi1.png",
         "stock": 15,
         "destacado": true,
         "autor": "Artista: María Fernández"
@@ -16,7 +16,7 @@
         "descripcion": "Set de 10 stickers con mensajes motivadores para decorar tus espacios.",
         "precio": 8990,
         "categoria": "stickers",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Stickers/sticker-pack.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Stickers/sticker-pack.png",
         "stock": 25,
         "destacado": true,
         "autor": "Diseño SOULINK"
@@ -27,7 +27,7 @@
         "descripcion": "Camiseta de algodón orgánico con mensaje positivo. Talles S-XL.",
         "precio": 15990,
         "categoria": "ropa",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Poleras/camiseta-soulink.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Poleras/camiseta-soulink.png",
         "stock": 8,
         "destacado": false,
         "autor": ""
@@ -38,7 +38,7 @@
         "descripcion": "Colección de stickers que representan diferentes emociones.",
         "precio": 6990,
         "categoria": "stickers",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Stickers/stickers-emociones.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Stickers/stickers-emociones.png",
         "stock": 12,
         "destacado": true,
         "autor": "Equipo SOULINK"
@@ -49,7 +49,7 @@
         "descripcion": "Conejito de crochet meditando, ideal para tu espacio de calma.",
         "precio": 18990,
         "categoria": "amigurumis",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Amigurumis/amigurumi2.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Amigurumis/amigurumi2.png",
         "stock": 18,
         "destacado": false,
         "autor": "Artista: Roberto Silva"
@@ -60,7 +60,7 @@
         "descripcion": "Sudadera cómoda con capucha, perfecta para días relajados.",
         "precio": 29990,
         "categoria": "ropa",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Poleras/hoodie-soulink.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Poleras/hoodie-soulink.png",
         "stock": 10,
         "destacado": false,
         "autor": ""
@@ -71,7 +71,7 @@
         "descripcion": "Pack de 15 stickers con frases para motivar tu día a día.",
         "precio": 7990,
         "categoria": "stickers",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Stickers/stickers-frases.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Stickers/stickers-frases.png",
         "stock": 22,
         "destacado": true,
         "autor": "Equipo SOULINK"
@@ -82,7 +82,7 @@
         "descripcion": "Dragón de crochet que simboliza fuerza y protección emocional.",
         "precio": 21990,
         "categoria": "amigurumis",
-        "imagen": "/proyecto-soulink/assets/images/MerchConsejin/Amigurumis/amigurumi3.png",
+        "imagen": "/proyecto-soulink/frontend/assets/images/MerchConsejin/Amigurumis/amigurumi3.png",
         "stock": 10,
         "destacado": false,
         "autor": "Artista: Ana López"
