@@ -248,7 +248,7 @@ const SoulinkCore = {
         const tiendaContainer = document.getElementById('productosContainer');
         if(!tiendaContainer) return;
 
-        fetch(obtenerRuta('../database/productos.json'))
+        fetch(obtenerRuta('../data/productos.json'))
         .then(res => { if(!res.ok) throw new Error('No se pudo cargar productos.json'); return res.json(); })
         .then(productos => {
             tiendaContainer.innerHTML = productos.map(producto => {

@@ -8,5 +8,21 @@ admin123
 
 
 Login 
-ana@ejemplo.com
+ana@ejemplo.com              Solo el JSON
 Password123
+
+
+
+frontend/js/config.js     SI LA PAGINA SE ESCALA A SERVIDOR
+backendUrls: { 
+    local: 'http://localhost:8080',
+    production: 'https://api.tudominio.com' // ← CAMBIA SOLO ESTA
+},
+
+
+frontend/js/login.js     SI LA PAGINA SE ESCALA A SERVIDOR
+// ENCUENTRA ESTAS LÍNEAS (~línea 37-40):
+const BACKEND_URLS = {
+    local: 'http://localhost:8080',
+    production: 'https://api.tudominio.com' // ← CAMBIA SOLO ESTA
+};

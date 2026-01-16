@@ -641,8 +641,6 @@
         </div>
     </section>
 
-
-
     <!-- Footer -->
     <footer class="footer bg-dark text-white py-5">
         <div class="container">
@@ -670,7 +668,7 @@
                         <li><a href="#como-funciona" class="text-white">Cómo Comprar</a></li>
                         <li><a href="#" class="text-white">Envíos y Entregas</a></li>
                         <li><a href="#" class="text-white">Devoluciones</a></li>
-                        <li><a href="/pages/contacto.html" class="text-white">Contacto</a></li>
+                        <li><a href="contacto.html" class="text-white">Contacto</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -688,8 +686,8 @@
                     <p>&copy; 2025 SOULINK Tienda. Todos los derechos reservados.</p>
                 </div>
                 <div class="col-md-6 text-md-right">
-                    <a href="/pages/privacidad.html" class="text-white mr-3">Política de Privacidad</a>
-                    <a href="/pages/terminos.html" class="text-white">Términos de Compra</a>
+                    <a href="privacidad.html" class="text-white mr-3">Política de Privacidad</a>
+                    <a href="terminos.html" class="text-white">Términos de Compra</a>
                 </div>
             </div>
         </div>
@@ -743,7 +741,7 @@
     <script src="../js/soulink.js"></script>
     <script src="../js/darkmode.js"></script>
     
-<!-- Lógica de la tienda con carga desde JSON -->
+<!-- Lógica de la tienda con carga desde JSON - VERSIÓN CORREGIDA PARA FRONTEND -->
 <script>
     // Clase Tienda MODIFICADA para cargar desde JSON
     class Tienda {
@@ -755,30 +753,75 @@
         }
 
         cargarProductosDesdeJSON() {
-            // Cambia esta ruta según donde esté tu archivo productos.json
-            fetch('../data/productos.json')
+            // Ruta CORRECTA para frontend desde pages/tienda.html
+            const rutaProductos = '../data/productos.json';
+            console.log('🔍 [FRONTEND] Cargando productos desde:', rutaProductos);
+            
+            fetch(rutaProductos)
                 .then(response => {
+                    console.log('📊 Status:', response.status, 'URL:', response.url);
                     if (!response.ok) {
-                        throw new Error('No se pudo cargar productos.json');
+                        throw new Error(`HTTP ${response.status}: No se pudo cargar ${rutaProductos}`);
                     }
                     return response.json();
                 })
                 .then(data => {
+                    console.log(`✅ ${data.length} productos cargados exitosamente en FRONTEND`);
                     this.productos = data;
                     this.inicializar();
                 })
                 .catch(error => {
-                    console.error('Error cargando productos:', error);
-                    // Mostrar mensaje de error
-                    document.getElementById('productGrid').innerHTML = `
-                        <div class="col-12 text-center">
-                            <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-                            <h4>Error cargando productos</h4>
-                            <p>No se pudieron cargar los productos. Por favor, intenta nuevamente.</p>
-                            <button class="btn btn-primary" onclick="location.reload()">Reintentar</button>
-                        </div>
-                    `;
+                    console.error('❌ Error cargando productos en FRONTEND:', error);
+                    
+                    // Mostrar error detallado
+                    const grid = document.getElementById('productGrid');
+                    if (grid) {
+                        grid.innerHTML = `
+                            <div class="col-12 text-center py-5">
+                                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                                <h4>Error cargando productos</h4>
+                                <p class="text-muted">${error.message}</p>
+                                <div class="alert alert-info mt-3 text-left">
+                                    <h6>Posibles causas:</h6>
+                                    <ul class="mb-0">
+                                        <li>Archivo <code>productos.json</code> no encontrado en <code>/frontend/data/</code></li>
+                                        <li>Error de formato JSON</li>
+                                        <li>Problema de permisos del servidor</li>
+                                    </ul>
+                                </div>
+                                <div class="mt-4">
+                                    <button class="btn btn-primary mr-2" onclick="location.reload()">
+                                        <i class="fas fa-redo mr-1"></i> Reintentar
+                                    </button>
+                                    <button class="btn btn-outline-secondary" onclick="console.log('Ruta intentada: ${rutaProductos}')">
+                                        <i class="fas fa-bug mr-1"></i> Ver detalles
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        grid.style.display = 'block';
+                    }
+                    
+                    // Ocultar spinner
+                    const loading = document.getElementById('loadingSpinner');
+                    if (loading) loading.style.display = 'none';
                 });
+        }
+
+        // 🔥 FUNCIÓN AÑADIDA PARA FRONTEND (rutas con ../)
+        corregirRutaImagen(ruta) {
+            if (!ruta) return '../assets/images/placeholder.png';
+            
+            // Si ya tiene ../ o es URL completa, dejarla igual
+            if (ruta.startsWith('../') || ruta.startsWith('http') || ruta.startsWith('data:')) {
+                return ruta;
+            }
+            // Si empieza con "assets/", agregar ../
+            if (ruta.startsWith('assets/')) {
+                return '../' + ruta;
+            }
+            // Para cualquier otra ruta relativa
+            return '../' + ruta;
         }
 
         cargarCarrito() {
@@ -879,6 +922,7 @@
             this.asignarEventosProductos();
         }
 
+        // 🔥 FUNCIÓN MODIFICADA PARA FRONTEND - CON CORRECCIÓN DE RUTAS
         crearCardProducto(producto) {
             const stockClass = producto.stock < 5 ? 'low-stock' : 'in-stock';
             const stockText = producto.stock < 5 ? `${producto.stock} disponibles` : 'Disponible';
@@ -894,10 +938,10 @@
                         <span class="product-category">${this.obtenerNombreCategoria(producto.categoria)}</span>
                         
                         <div class="product-img" style="background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 200px; overflow: hidden;">
-                             <img src="${producto.imagen}" 
+                            <img src="${this.corregirRutaImagen(producto.imagen)}" 
                                  alt="${producto.nombre}"
                                  style="max-width: 100%; max-height: 100%; object-fit: contain; padding: 10px;"
-                                 onerror="this.onerror=null; this.src='/proyecto-soulink/assets/images/placeholder.png'; this.alt='Imagen no disponible';">
+                                 onerror="this.onerror=null; this.src='../assets/images/placeholder.png'; this.alt='Imagen no disponible';">
                         </div>      
                         
                         <div class="card-body">
@@ -934,15 +978,6 @@
             return nombres[categoria] || categoria;
         }
 
-        obtenerIconoCategoria(categoria) {
-            const iconos = {
-                'amigurumis': 'paw',
-                'stickers': 'sticky-note',
-                'ropa': 'tshirt'
-            };
-            return iconos[categoria] || 'box';
-        }
-
         mostrarCarrito() {
             const container = document.getElementById('cartItemsContainer');
             if (!container) return;
@@ -968,7 +1003,7 @@
 
                 html += `
                     <div class="d-flex align-items-center mb-3 pb-3 border-bottom">
-                        <img src="../assets/images/tienda/${item.imagen || 'placeholder.jpg'}" 
+                        <img src="${this.corregirRutaImagen(item.imagen) || '../assets/images/placeholder.png'}" 
                              alt="${item.nombre}" 
                              class="cart-modal-img mr-3"
                              onerror="this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Crect%20width%3D%2260%22%20height%3D%2260%22%20fill%3D%22%23f8f9fa%22/%3E%3Ctext%20x%3D%2230%22%20y%3D%2235%22%20font-family%3D%22Arial%22%20font-size%3D%2214%22%20text-anchor%3D%22middle%22%20fill%3D%22%236c757d%22%3EIMG%3C/text%3E%3C/svg%3E'">
@@ -1180,7 +1215,7 @@
                 });
             });
 
-            console.log('Tienda SOULINK inicializada correctamente');
+            console.log('✅ Tienda SOULINK inicializada correctamente en FRONTEND');
         }
     }
 

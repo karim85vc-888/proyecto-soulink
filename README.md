@@ -113,7 +113,7 @@ Tu contribución ayuda a:
 ## 📁 Estructura del Proyecto
 ```
 proyecto-soulink/
-├── frontend/                 <-- Todo tu sitio web estático
+├── frontend/                 <-- Sitio web estático
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── Conejo/
@@ -141,37 +141,74 @@ proyecto-soulink/
 │   │           └── admin-protection.js
 │   ├── js/
 │   │   ├── login.js
+│   │   ├── config.js
 │   │   └── soulink.js
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
 │   │   ├── usuarios.json
+│   │   ├── DER_soulink.png
+│   │   ├── soulink.sql
 │   │   └── productos.json
-│   ├── database/
-│   │   ├── DER_soulink.png        
-│   │   └── soulink.sql
 │   ├── index.html
 │   └── README.md
 │
-├── backend/                  <-- Spring Boot API
-│   ├── .mvn/                 <-- Maven Wrapper
+├── backend/                  
+│   ├── .mvn/                 
 │   │   └── wrapper/
-│   │       ├── maven-wrapper.properties
-│   ├── mvnw                  <-- Script Linux/macOS
-│   ├── mvnw.cmd              <-- Script Windows
+│   │       └── maven-wrapper.properties
+│   ├── mvnw                 
+│   ├── mvnw.cmd              
 │   ├── pom.xml
-│   ├── src/
-│   │   ├── main/java/com/soulink/
-│   │   │   ├── controller/
-│   │   │   ├── model/
-│   │   │   ├── repository/
-│   │   │   └── service/
-│   │   └── resources/
-│   │       ├── application-dev.yml
-│   │       └── application-prod.yml
+│   └── src/
+│       ├── main/java/com/soulink/
+│       │      ├── controller/
+│       │      │         ├── ArticulosController.Java
+│       │      │         ├── ClientesController.Java
+│       │      │         ├── ComprasController.Java
+│       │      │         ├── ProductosController.Java
+│       │      │         ├── RolesController.Java
+│       │      │         ├── UsuarioController.Java
+│       │      │         └── VentasController.Java 
+│       │      ├── model/
+│       │      │       ├── Articulo.Java
+│       │      │       ├── Cliente.Java
+│       │      │       ├── Compra.Java
+│       │      │       ├── Producto.Java
+│       │      │       ├── Rol.Java
+│       │      │       ├── Usuario.Java
+│       │      │       └── Venta.Java 
+│       │      ├── repository/
+│       │      │         ├── ArticulosRepository.Java
+│       │      │         ├── ClientesRepository.Java
+│       │      │         ├── ComprasRepository.Java
+│       │      │         ├── ProductosRepository.Java
+│       │      │         ├── RolesRepository.Java
+│       │      │         ├── UsuarioRepository.Java
+│       │      │         └── VentasRepository.Java 
+│       │      └── service/     
+│       │              ├── ArticulosService.Java
+│       │              ├── ClientesService.Java
+│       │              ├── ComprasService.Java
+│       │              ├── ProductosService.Java
+│       │              ├── RolesService.Java
+│       │              ├── UsuarioService.Java
+│       │              ├── VentasService.Java 
+│       │              └── Impl/
+│       │                    ├── RolesServiceImpl.Java
+│       │                    ├── RolesServiceImpl.Java
+│       │                    ├── RolesServiceImpl.Java
+│       │                    ├── RolesServiceImpl.Java
+│       │                    ├── RolesServiceImpl.Java
+│       │                    ├── RolesServiceImpl.Java
+│       │                    └── VentasServiceImpl.Java 
+│       │                         
+│       └── resources/
+│            ├── application-dev.yml
+│            └── application-prod.yml
 │
-├── docs/                     <-- Copia del frontend para GitHub Pages
+├── docs/               <-------------------- Copia del frontend para GitHub Pages
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── Conejo/
@@ -199,22 +236,22 @@ proyecto-soulink/
 │   │           └── admin-protection.js
 │   ├── js/
 │   │   ├── login.js
+│   │   ├── config.js
 │   │   └── soulink.js
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
 │   │   ├── usuarios.json
+│   │   ├── DER_soulink.png
+│   │   ├── soulink.sql
 │   │   └── productos.json
-│   ├── database/
-│   │   ├── DER_soulink.png        
-│   │   └── soulink.sql
 │   ├── index.html
 │   └── README.md
 │
-├── .gitignore                <-- Controla archivos que no se suben
-├── .gitattributes            <-- Controla finales de línea de mvnw y cmd
-└── README.md                 <-- Información del proyecto general
+├── .gitignore                
+├── .gitattributes           
+└── README.md                
 
 ```
 ## 📸 Screenshot 1 - Sección "Acerca de"

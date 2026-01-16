@@ -40,12 +40,7 @@
             color: #dc3545;
         }
         
-        #acceptTerms.is-invalid ~ .form-check-label a {
-            color: #dc3545;
-            text-decoration: underline;
-        }
-        
-        /* Estilos para Task 10 */
+        /* Estilos para errores de login */
         .login-error {
             animation: shake 0.5s ease-in-out;
         }
@@ -56,7 +51,7 @@
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
         
-        /* ========== CORRECCIÓN BUG FOOTER ========== */
+        /* Corrección de altura */
         .auth-card {
             min-height: 500px !important;
             display: flex;
@@ -88,7 +83,7 @@
             flex-direction: column;
         }
         
-        /* Contenedor de éxito que mantiene altura */
+        /* Contenedor de éxito */
         .login-success-container {
             flex: 1;
             display: flex !important;
@@ -104,26 +99,25 @@
             align-items: center;
         }
         
-        /* El footer siempre abajo */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        /* Indicador de modo de login */
+        .login-mode-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #6c757d;
+            z-index: 1;
         }
         
-        footer.footer {
-            margin-top: auto;
-        }
-        /* =========================================== */
+        .login-mode-badge.local { background: #d1ecf1; color: #0c5460; }
+        .login-mode-badge.production { background: #d4edda; color: #155724; }
+        .login-mode-badge.json { background: #fff3cd; color: #856404; }
     </style>
 </head>
-
-<!-- Scripts de Bootstrap y jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Tu script de login al final -->
-<script src="../js/login.js"></script>
 
 <body>
     <!-- Botón de Emergencia -->
@@ -211,14 +205,14 @@
                     </li>
 
                     <li class="nav-item"><a class="nav-link" href="tienda.html">Tienda</a></li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="carrito.html" style="position: relative;">
                             <i class="fas fa-shopping-cart"></i>
                             <span id="cartBadgeNav" class="cart-badge-nav" style="display: none;">0</span>
                         </a>
                     </li>
 
-                    <li class="nav-item active dropdown" id="userMenuContainer">
+                    <li class="nav-item dropdown" id="userMenuContainer">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                             <span id="userMenuText">Iniciar Sesión</span>
                         </a>
@@ -239,6 +233,11 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="card auth-card">
+                        <!-- Indicador de modo de login -->
+                        <div id="loginModeBadge" class="login-mode-badge">
+                            <i class="fas fa-sync fa-spin"></i> Detectando modo...
+                        </div>
+                        
                         <div class="card-body">
                             <ul class="nav nav-tabs" id="authTabs" role="tablist">
                                 <li class="nav-item">
@@ -316,7 +315,7 @@
 
                                         <div class="form-group">
                                             <label for="regTelefono">Número de Teléfono *</label>
-                                            <input type="tel" class="form-control" id="regTelefono" placeholder="Ej: +34 612 345 678" required>
+                                            <input type="tel" class="form-control" id="regTelefono" placeholder="Ej: +56 9 1234 5678" required>
                                         </div>
 
                                         <div class="form-group">
@@ -442,7 +441,7 @@
         </div>
     </section>
 
-<!-- Footer -->
+    <!-- Footer -->
     <footer class="footer bg-dark text-white py-5">
         <div class="container">
             <div class="row">
@@ -453,9 +452,9 @@
                 <div class="col-md-2">
                     <h5>Contacto</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#contacto-general">Formulario</a></li> <!-- Misma página: solo # -->
-                        <li><a href="#emergencia">Emergencia</a></li> <!-- Misma página: solo # -->
-                        <li><a href="#chat">Chat</a></li> <!-- Misma página: solo # -->
+                        <li><a href="#contacto-general">Formulario</a></li>
+                        <li><a href="#emergencia">Emergencia</a></li>
+                        <li><a href="#chat">Chat</a></li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -481,12 +480,19 @@
                     <p>&copy; 2025 SOULINK. Todos los derechos reservados.</p>
                 </div>
                 <div class="col-md-6 text-md-right">
-                    <a href="privacidad.html" class="text-white mr-3">Privacidad</a> <!-- Misma carpeta: sin ../ -->
-                    <a href="terminos.html" class="text-white">Términos</a> <!-- Misma carpeta: sin ../ -->
-                    <a href="acerca.html#faq" class="text-white ml-3">FAQ</a> <!-- Misma carpeta: sin ../ -->
+                    <a href="privacidad.html" class="text-white mr-3">Privacidad</a>
+                    <a href="terminos.html" class="text-white">Términos</a>
+                    <a href="acerca.html#faq" class="text-white ml-3">FAQ</a>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- SCRIPTS AL FINAL DEL BODY -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/login.js"></script>
+    <script src="../js/soulink.js"></script>
 </body>
 </html>
