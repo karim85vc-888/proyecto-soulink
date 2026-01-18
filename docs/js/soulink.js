@@ -198,27 +198,129 @@ const SoulinkCore = {
             toggle.addEventListener('mouseenter', function() { if(window.innerWidth>992)this.click(); });
         });
     },
-    enhanceForms: function() {
-        document.querySelectorAll('form').forEach(form => {
-            form.querySelectorAll('[required]').forEach(input => {
-                input.addEventListener('invalid', function(){ this.classList.add('is-invalid'); });
-                input.addEventListener('input', function(){ if(this.checkValidity()) this.classList.remove('is-invalid'); });
+enhanceForms: function() {
+    document.querySelectorAll('form').forEach(form => {
+        // Validar inputs requeridos
+        form.querySelectorAll('[required]').forEach(input => {
+            input.addEventListener('invalid', function(){ 
+                this.classList.add('is-invalid'); 
             });
-            form.addEventListener('submit', function(e){
-                const submitBtn = this.querySelector('button[type="submit"]');
-                if(submitBtn){
-                    const originalText = submitBtn.innerHTML;
-                    setTimeout(()=>{
-                        SoulinkUtils.showNotification('Formulario enviado correctamente','success');
-                        if(!form.hasAttribute('data-no-reset')) form.reset();
-                        if(submitBtn){ submitBtn.innerHTML=originalText; submitBtn.disabled=false; }
-                    },1500);
-                    submitBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';
-                    submitBtn.disabled=true;
+            input.addEventListener('input', function(){ 
+                if(this.checkValidity()) {
+                    this.classList.remove('is-invalid'); 
                 }
             });
         });
-    },
+
+        form.addEventListener('submit', function(e){
+            let esValido = true;
+            
+            // Validación específica para NOMBRE (solo letras)
+            const nombreInput = this.querySelector('#nombre');
+            if (nombreInput) {
+                const letrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
+                const nombreValor = nombreInput.value.trim();
+                
+                // Validar que no esté vacío y contenga solo letras
+                if (!nombreValor || !letrasRegex.test(nombreValor)) {
+                    nombreInput.classList.add('is-invalid');
+                    esValido = false;
+                    
+                    // Crear mensaje de error si no existe
+                    if (!nombreInput.nextElementSibling || 
+                        !nombreInput.nextElementSibling.classList.contains('invalid-feedback')) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'Por favor, ingresa solo letras (A-Z, a-z, acentos y espacios).';
+                        nombreInput.parentNode.appendChild(errorDiv);
+                    }
+                } else {
+                    nombreInput.classList.remove('is-invalid');
+                }
+            }
+            
+            // Validación específica para APELLIDO (solo letras)
+            const apellidoInput = this.querySelector('#apellido');
+            if (apellidoInput) {
+                const letrasRegex = /^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/;
+                const apellidoValor = apellidoInput.value.trim();
+                
+                if (!apellidoValor || !letrasRegex.test(apellidoValor)) {
+                    apellidoInput.classList.add('is-invalid');
+                    esValido = false;
+                    
+                    // Crear mensaje de error si no existe
+                    if (!apellidoInput.nextElementSibling || 
+                        !apellidoInput.nextElementSibling.classList.contains('invalid-feedback')) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'Por favor, ingresa solo letras (A-Z, a-z, acentos y espacios).';
+                        apellidoInput.parentNode.appendChild(errorDiv);
+                    }
+                } else {
+                    apellidoInput.classList.remove('is-invalid');
+                }
+            }
+            
+            // Validación para TELÉFONO (solo números)
+            const telefonoInput = this.querySelector('#telefono');
+            if (telefonoInput && telefonoInput.value.trim() !== '') {
+                const numerosRegex = /^[0-9]+$/;
+                if (!numerosRegex.test(telefonoInput.value.trim())) {
+                    telefonoInput.classList.add('is-invalid');
+                    esValido = false;
+                    
+                    if (!telefonoInput.nextElementSibling || 
+                        !telefonoInput.nextElementSibling.classList.contains('invalid-feedback')) {
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'invalid-feedback';
+                        errorDiv.textContent = 'Por favor, ingresa solo números (0-9).';
+                        telefonoInput.parentNode.appendChild(errorDiv);
+                    }
+                } else {
+                    telefonoInput.classList.remove('is-invalid');
+                }
+            }
+            
+            // Si no es válido, prevenir envío y mostrar mensaje
+            if (!esValido) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Mostrar notificación solo si hay errores
+                let mensajeError = '';
+                if (nombreInput && nombreInput.classList.contains('is-invalid')) {
+                    mensajeError = 'El nombre solo debe contener letras. ';
+                }
+                if (apellidoInput && apellidoInput.classList.contains('is-invalid')) {
+                    mensajeError += 'El apellido solo debe contener letras. ';
+                }
+                if (telefonoInput && telefonoInput.classList.contains('is-invalid')) {
+                    mensajeError += 'El teléfono solo debe contener números.';
+                }
+                
+                if (mensajeError) {
+                    SoulinkUtils.showNotification(mensajeError.trim(), 'warning');
+                }
+                
+                return; // Detener ejecución aquí
+            }
+            
+            // Si todo es válido, proceder con el envío normal
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if(submitBtn){
+                const originalText = submitBtn.innerHTML;
+                setTimeout(()=>{
+                    SoulinkUtils.showNotification('Formulario enviado correctamente','success');
+                    if(!form.hasAttribute('data-no-reset')) form.reset();
+                    if(submitBtn){ submitBtn.innerHTML=originalText; submitBtn.disabled=false; }
+                },1500);
+                submitBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                submitBtn.disabled=true;
+            }
+        });
+    });
+},
     enhanceCards: function() {
         document.querySelectorAll('.service-card, .team-card, .test-card, .resource-card, .card').forEach(card=>{
             card.style.transition='transform 0.3s ease, box-shadow 0.3s ease';
