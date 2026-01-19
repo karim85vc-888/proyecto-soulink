@@ -154,61 +154,82 @@ proyecto-soulink/
 │   ├── index.html
 │   └── README.md
 │
-├── backend/                  
-│   ├── .mvn/                 
+├── backend/                  <-- Backend Java (Spring Boot)
+│   ├── .mvn/
 │   │   └── wrapper/
 │   │       └── maven-wrapper.properties
-│   ├── mvnw                 
-│   ├── mvnw.cmd              
+│   ├── mvnw
+│   ├── mvnw.cmd
 │   ├── pom.xml
 │   └── src/
 │       ├── main/java/com/soulink/
-│       │      ├── controller/
-│       │      │         ├── ArticulosController.Java
-│       │      │         ├── ClientesController.Java
-│       │      │         ├── ComprasController.Java
-│       │      │         ├── ProductosController.Java
-│       │      │         ├── RolesController.Java
-│       │      │         ├── UsuarioController.Java
-│       │      │         └── VentasController.Java 
-│       │      ├── model/
-│       │      │       ├── Articulo.Java
-│       │      │       ├── Cliente.Java
-│       │      │       ├── Compra.Java
-│       │      │       ├── Producto.Java
-│       │      │       ├── Rol.Java
-│       │      │       ├── Usuario.Java
-│       │      │       └── Venta.Java 
-│       │      ├── repository/
-│       │      │         ├── ArticulosRepository.Java
-│       │      │         ├── ClientesRepository.Java
-│       │      │         ├── ComprasRepository.Java
-│       │      │         ├── ProductosRepository.Java
-│       │      │         ├── RolesRepository.Java
-│       │      │         ├── UsuarioRepository.Java
-│       │      │         └── VentasRepository.Java 
-│       │      └── service/     
-│       │              ├── ArticulosService.Java
-│       │              ├── ClientesService.Java
-│       │              ├── ComprasService.Java
-│       │              ├── ProductosService.Java
-│       │              ├── RolesService.Java
-│       │              ├── UsuarioService.Java
-│       │              ├── VentasService.Java 
-│       │              └── Impl/
-│       │                    ├── RolesServiceImpl.Java
-│       │                    ├── RolesServiceImpl.Java
-│       │                    ├── RolesServiceImpl.Java
-│       │                    ├── RolesServiceImpl.Java
-│       │                    ├── RolesServiceImpl.Java
-│       │                    ├── RolesServiceImpl.Java
-│       │                    └── VentasServiceImpl.Java 
-│       │                         
+│       │   ├── config/
+│       │   │       EnvConfig.java
+│       │   │       JwtAuthenticationFilter.java
+│       │   │       JwtTokenProvider.java
+│       │   │       PasswordEncoderConfig.java
+│       │   │       SecurityConfig.java
+│       │   ├── controller/
+│       │   │       ArticulosController.java
+│       │   │       ClientesController.java
+│       │   │       ComprasController.java
+│       │   │       ProductosController.java
+│       │   │       RolesController.java
+│       │   │       UsuarioController.java
+│       │   │       VentasController.java
+│       │   ├── dto/
+│       │   │   ├── request/
+│       │   │   │       LoginRequestDTO.java
+│       │   │   │       UsuarioRegisterDTO.java
+│       │   │   │       UsuarioUpdateDTO.java
+│       │   │   └── response/
+│       │   │           LoginResponseDTO.java
+│       │   │           UsuarioResponseDTO.java
+│       │   ├── exception/
+│       │   │       BadRequestException.java
+│       │   │       ErrorResponseDTO.java
+│       │   │       GlobalExceptionHandler.java
+│       │   │       ResourceNotFoundException.java
+│       │   │       UnauthorizedException.java
+│       │   ├── mapper/
+│       │   │       UsuarioMapper.java
+│       │   ├── model/
+│       │   │       Articulo.java
+│       │   │       Cliente.java
+│       │   │       Compra.java
+│       │   │       Producto.java
+│       │   │       Rol.java
+│       │   │       Usuario.java
+│       │   │       Venta.java
+│       │   ├── repository/
+│       │   │       ArticulosRepository.java
+│       │   │       ClientesRepository.java
+│       │   │       ComprasRepository.java
+│       │   │       ProductosRepository.java
+│       │   │       RolesRepository.java
+│       │   │       UsuarioRepository.java
+│       │   │       VentasRepository.java
+│       │   └── service/
+│       │           ArticulosService.java
+│       │           ClientesService.java
+│       │           ComprasService.java
+│       │           ProductosService.java
+│       │           RolesService.java
+│       │           UsuarioService.java
+│       │           VentasService.java
+│       │           impl/
+│       │               ArticulosServiceImpl.java
+│       │               ClientesServiceImpl.java
+│       │               ComprasServiceImpl.java
+│       │               ProductosServiceImpl.java
+│       │               RolesServiceImpl.java
+│       │               UsuarioServiceImpl.java
+│       │               VentasServiceImpl.java
 │       └── resources/
-│            ├── application-dev.yml
-│            └── application-prod.yml
+│               application-dev.yml
+│               application-prod.yml
 │
-├── docs/               <-------------------- Copia del frontend para GitHub Pages
+├── docs/                     <-- Copia del frontend para GitHub Pages
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── Conejo/
@@ -249,9 +270,10 @@ proyecto-soulink/
 │   ├── index.html
 │   └── README.md
 │
-├── .gitignore                
-├── .gitattributes           
-└── README.md                
+├── .gitignore
+├── .gitattributes
+└── README.md
+
 
 ```
 ## 📸 Screenshot 1 - Sección "Acerca de"
@@ -342,6 +364,7 @@ proyecto-soulink/
 ## 📸 Screenshot 22 - DBeaver - Usuarios CIFRADOS
 
 ![DBeaver - Usuarios CIFRADOS](frontend/assets/images/ss_bdcifrada.png)
+
 
 
 
