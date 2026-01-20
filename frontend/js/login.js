@@ -205,36 +205,37 @@ function initRealTimeValidation() {
     }
     
     // Validación de teléfono en tiempo real
-    const regTelefono = document.getElementById('regTelefono');
-    if (regTelefono) {
-        regTelefono.addEventListener('blur', () => validatePhone(regTelefono));
-        regTelefono.addEventListener('input', function() {
-            if (this.classList.contains('is-invalid')) {
-                validatePhone(this);
-            }
-        });
-        
-        // Formateo automático de teléfono
-        regTelefono.addEventListener('input', function(e) {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 0) {
-                // Formato chileno: +56 9 1234 5678
-                if (value.startsWith('56') && value.length > 2) {
-                    value = '+56 ' + value.substring(2);
-                }
-                if (value.length > 3) {
-                    value = value.substring(0, 3) + ' ' + value.substring(3);
-                }
-                if (value.length > 7) {
-                    value = value.substring(0, 7) + ' ' + value.substring(7);
-                }
-                if (value.length > 12) {
-                    value = value.substring(0, 12);
-                }
-            }
-            this.value = value;
-        });
-    }
+const regTelefono = document.getElementById('regTelefono');
+if (regTelefono) {
+    regTelefono.addEventListener('blur', () => validatePhone(regTelefono));
+    
+    regTelefono.addEventListener('input', function() {
+        if (this.classList.contains('is-invalid')) {
+            validatePhone(this);
+        }
+    });
+
+    // Formateo automático de teléfono
+    regTelefono.addEventListener('input', function() {
+        let value = this.value.replace(/\D/g, ''); // solo números
+
+        // Si empieza con 56, eliminamos para reinsertar
+        if (value.startsWith('56')) {
+            value = value.substring(2);
+        }
+
+        // Tomamos máximo 9 dígitos (celular chileno)
+        value = value.substring(0, 9);
+
+        // Formateo: +56 9 1234 5678
+        let formatted = '+56';
+        if (value.length > 0) formatted += ' ' + value.charAt(0); // primer dígito del celular
+        if (value.length > 1) formatted += ' ' + value.substring(1, 5); // siguientes 4 dígitos
+        if (value.length > 5) formatted += ' ' + value.substring(5, 9); // últimos 4 dígitos
+
+        this.value = formatted;
+    });
+}
     
     // Validación de email en tiempo real
     const regEmail = document.getElementById('regEmail');
