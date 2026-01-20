@@ -43,7 +43,8 @@ public class SecurityConfig {
                         // 🔓 PÚBLICO
                         .requestMatchers(
                                 "/auth/**",        // login
-                                "/usuarios/register" // registro
+                                "/usuarios/register", // registro
+                                "/usuarios/login"   // <--- login ahora permitido
                         ).permitAll()
 
                         // 🔒 PRIVADO (JWT)
