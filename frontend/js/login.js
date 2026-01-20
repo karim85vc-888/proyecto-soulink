@@ -258,8 +258,7 @@ async function loginWithBackend(email, password, backendUrl) {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbG9uc29AZXhhbXBsZS5jb20iLCJpYXQiOjE3Njg5MjAwOTgsImV4cCI6MTc2OTAwNjQ5OH0.5aPSTGMfTJqJivT5yo_AYbL5YUX5Y3VGD8pht6MuA9CRbW483JMQTJKA8hzlxzyLVAcHkW1qEbwP0MwPUJGMOQ'
+                'Accept': 'application/json'
             },
             body: JSON.stringify({ email, password })
         });
