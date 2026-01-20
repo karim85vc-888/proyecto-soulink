@@ -17,7 +17,8 @@ public class CorsConfig {
                         .allowedOrigins(
                                 "http://127.0.0.1:5500",   // frontend local
                                 "http://localhost:5500",   // por si usas localhost
-                                "https://soulink.com"      // frontend en producción/nube
+                                "https://proyecto-soulink.vercel.app",      // frontend en producción/nube
+                                "https://proyecto-soulink.onrender.com"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
