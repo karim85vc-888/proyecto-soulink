@@ -12,7 +12,7 @@ const SoulinkConfig = {
     // URLs del BACKEND - se lee de la variable de entorno VITE_BACKEND_URL
     backendUrls: {
         local: 'http://localhost:8080',
-        production: import.meta.env.VITE_BACKEND_URL 
+        production: import.meta.env.BACKEND_URL 
     },
     
     // Rutas de la API
