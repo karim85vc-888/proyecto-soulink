@@ -31,12 +31,23 @@
 
 <div align="center">
 
-[![🔗 Ingresar a Soulink](https://img.shields.io/badge/🔗_Ingresar_a_Soulink-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/)
+[![🔗 Ingresar a LOCAL Soulink](https://img.shields.io/badge/🔗_Ingresar_a_LOCAL_Soulink-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/)
 
 </div>
 <div align="center">
 
-[![🔗 Ingresar a Soulink como Administrador](https://img.shields.io/badge/🔗_Ingresar_a_Soulink_Como_Administrador-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/pages/admin)
+[![🔗 Ingresar a LOCAL Soulink como Administrador](https://img.shields.io/badge/🔗_Ingresar_a_LOCAL_Soulink_Como_Administrador-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://ryuzenk-ai.github.io/proyecto-soulink/pages/admin)
+
+</div>
+
+<div align="center">
+
+[![🔗 Ingresar a WEB Soulink](https://img.shields.io/badge/🔗_Ingresar_a_WEB_Soulink-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://proyecto-soulink.vercel.app/)
+
+</div>
+<div align="center">
+
+[![🔗 Ingresar a WEB Soulink como Administrador](https://img.shields.io/badge/🔗_Ingresar_a_WEB_Soulink_Como_Administrador-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://proyecto-soulink.vercel.app/pages/admin/index.html)
 
 </div>
 
@@ -364,6 +375,7 @@ proyecto-soulink/
 ## 📸 Screenshot 22 - DBeaver - Usuarios CIFRADOS
 
 ![DBeaver - Usuarios CIFRADOS](frontend/assets/images/ss_bdcifrada.png)
+
 
 
 
