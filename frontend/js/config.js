@@ -8,24 +8,24 @@ const SoulinkConfig = {
     // 'production' = servidor real (producción)
     // 'json-only' = solo usuarios.json (GitHub Pages)
     mode: 'local',
-    
-    // URLs del BACKEND - se lee de la variable de entorno VITE_BACKEND_URL
+
+    // URLs del BACKEND - ahora apunta directamente a Render
     backendUrls: {
         local: 'http://localhost:8080',
-        production: import.meta.env.BACKEND_URL 
+        production: 'https://proyecto-soulink.onrender.com'
     },
-    
+
     // Rutas de la API
     apiEndpoints: {
         login: '/usuarios/login',
         register: '/usuarios/register',
         getUser: '/usuarios/{id}'
     },
-    
+
     // Configuración de fallback
     fallbackToJSON: true,
     debug: true,
-    
+
     // Usuarios demo para JSON-only mode
     demoUsers: [
         {
@@ -50,14 +50,14 @@ function detectMode() {
         updateLoginModeBadge('local', 'Modo: Backend Local (:8080)');
         return 'local';
     }
-    
+
     // GitHub Pages
     if (window.location.hostname.includes('github.io')) {
         if (SoulinkConfig.debug) console.log('🔍 Modo GitHub Pages -> JSON-only');
         updateLoginModeBadge('json', 'Modo: Solo JSON');
         return 'json-only';
     }
-    
+
     // Por defecto producción
     if (SoulinkConfig.debug) console.log('🔍 Modo: Producción');
     updateLoginModeBadge('production', 'Modo: Producción');
@@ -73,19 +73,19 @@ async function checkBackendAvailability() {
 function updateLoginModeBadge(mode, text) {
     const badge = document.getElementById('loginModeBadge');
     if (!badge) return;
-    
+
     const modeTexts = {
         'local': '🖥️ Backend Local',
         'production': '🌐 Backend Producción',
         'json': '📄 Solo JSON'
     };
-    
+
     const modeColors = {
         'local': 'local',
         'production': 'production',
         'json': 'json'
     };
-    
+
     badge.innerHTML = `<i class="fas fa-circle mr-1"></i> ${modeTexts[mode] || text}`;
     badge.className = `login-mode-badge ${modeColors[mode] || ''}`;
 }
@@ -96,7 +96,7 @@ function updateLoginModeBadge(mode, text) {
 
 function getBackendUrl() {
     const mode = SoulinkConfig.mode;
-    
+
     switch(mode) {
         case 'local':
             return SoulinkConfig.backendUrls.local;
@@ -112,7 +112,7 @@ function getBackendUrl() {
 function getApiUrl(endpoint) {
     const baseUrl = getBackendUrl();
     if (!baseUrl) return null;
-    
+
     return baseUrl + SoulinkConfig.apiEndpoints[endpoint];
 }
 
@@ -122,7 +122,7 @@ function getApiUrl(endpoint) {
 
 function getLoginStrategy() {
     const mode = SoulinkConfig.mode;
-    
+
     return {
         mode: mode,
         backendUrl: mode === 'json-only' ? null : getBackendUrl(),
