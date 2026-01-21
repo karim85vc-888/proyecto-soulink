@@ -7,7 +7,7 @@ const SoulinkConfig = {
     // 'local' = localhost:8080 (desarrollo)
     // 'production' = servidor real (producción)
     // 'json-only' = solo usuarios.json (GitHub Pages)
-    mode: 'production',
+    mode: 'local',
 
     // URLs del BACKEND - ahora apunta directamente a Render
     backendUrls: {
