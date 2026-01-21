@@ -1,136 +1,133 @@
 // ============================
-// CONFIGURACIÓN SOULINK - PARA GITHUB PAGES
-// Versión específica para despliegue en GitHub Pages
+// CONFIGURACIÓN SOULINK - Login
 // ============================
 
 const SoulinkConfig = {
-    // MODO FIJO PARA GITHUB PAGES: Solo JSON
-    mode: 'json-only',
-    
-    // URLs del BACKEND (informativas, no funcionales en GitHub)
+    // MODO DE OPERACIÓN:
+    // 'local' = localhost:8080 (desarrollo)
+    // 'production' = servidor real (producción)
+    // 'json-only' = solo usuarios.json (GitHub Pages)
+    mode: 'production',
+
+    // URLs del BACKEND - ahora apunta directamente a Render
     backendUrls: {
-        local: 'http://localhost:8080',
-        production: 'https://api.soulink.org' // Tu dominio futuro
+        local: 'http://localhost:8080',  
+        production: 'https://proyecto-soulink.onrender.com'
     },
-    
-    // Rutas de la API (solo referencia)
+
+    // Rutas de la API
     apiEndpoints: {
         login: '/usuarios/login',
         register: '/usuarios/register',
         getUser: '/usuarios/{id}'
     },
-    
-    // Configuración específica para GitHub Pages
-    githubPages: true,
+
+    // Configuración de fallback
     fallbackToJSON: true,
-    debug: false, // Desactivar logs en producción
-    
-    // Usuarios demo predefinidos
+    debug: true,
+
+    // Usuarios demo para JSON-only mode
     demoUsers: [
         {
-            email: "demo@soulink.org",
-            password: "demo1234", // Base64: ZGVtbzEyMzQ=
+            email: "usuario@demo.com",
+            password: "demo1234",
             nombre_completo: "Usuario Demo"
-        },
-        {
-            email: "admin@soulink.org",
-            password: "admin1234", // Base64: YWRtaW4xMjM0
-            nombre_completo: "Administrador Demo",
-            rol: "admin"
         }
     ]
 };
 
 // ============================
-// DETECCIÓN DE ENTORNO GITHUB PAGES
+// DETECCIÓN AUTOMÁTICA DE MODO
 // ============================
 
 function detectMode() {
-    // Forzar modo JSON-only en GitHub Pages
-    updateLoginModeBadge('ghpages', 'GitHub Pages (Solo JSON)');
-    return 'json-only';
+    // SIEMPRE local cuando estás en localhost
+    if (window.location.hostname === 'localhost' || 
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname.includes('192.168.')) {
+        
+        if (SoulinkConfig.debug) console.log('🔍 Modo forzado: Localhost');
+        updateLoginModeBadge('local', 'Modo: Backend Local (:8080)');
+        return 'local';
+    }
+
+    // GitHub Pages
+    if (window.location.hostname.includes('github.io')) {
+        if (SoulinkConfig.debug) console.log('🔍 Modo GitHub Pages -> JSON-only');
+        updateLoginModeBadge('json', 'Modo: Solo JSON');
+        return 'json-only';
+    }
+
+    // Por defecto producción
+    if (SoulinkConfig.debug) console.log('🔍 Modo: Producción');
+    updateLoginModeBadge('production', 'Modo: Producción');
+    return 'production';
+}
+
+// Verificar si el backend está disponible - SIMPLIFICADO
+async function checkBackendAvailability() {
+    return true;
 }
 
 // Actualizar el badge que muestra el modo de login
 function updateLoginModeBadge(mode, text) {
     const badge = document.getElementById('loginModeBadge');
     if (!badge) return;
-    
+
     const modeTexts = {
-        'ghpages': '🌐 GitHub Pages - Modo Demo',
-        'demo': '🖥️ Modo Demo Local'
+        'local': '🖥️ Backend Local',
+        'production': '🌐 Backend Producción',
+        'json': '📄 Solo JSON'
     };
-    
-    badge.innerHTML = `<i class="fas fa-cloud mr-1"></i> ${modeTexts[mode] || text}`;
-    badge.className = `login-mode-badge ${mode}`;
+
+    const modeColors = {
+        'local': 'local',
+        'production': 'production',
+        'json': 'json'
+    };
+
+    badge.innerHTML = `<i class="fas fa-circle mr-1"></i> ${modeTexts[mode] || text}`;
+    badge.className = `login-mode-badge ${modeColors[mode] || ''}`;
 }
 
 // ============================
-// FUNCIONES DE URL (SIMULADAS)
+// FUNCIONES DE URL
 // ============================
 
 function getBackendUrl() {
-    return null; // No hay backend en GitHub Pages
+    const mode = SoulinkConfig.mode;
+
+    switch(mode) {
+        case 'local':
+            return SoulinkConfig.backendUrls.local;
+        case 'production':
+            return SoulinkConfig.backendUrls.production;
+        case 'json-only':
+            return null;
+        default:
+            return SoulinkConfig.backendUrls.local;
+    }
 }
 
 function getApiUrl(endpoint) {
-    return null; // No hay API en GitHub Pages
+    const baseUrl = getBackendUrl();
+    if (!baseUrl) return null;
+
+    return baseUrl + SoulinkConfig.apiEndpoints[endpoint];
 }
 
 // ============================
-// ESTRATEGIA DE LOGIN PARA GITHUB PAGES
+// FUNCIONES DE AYUDA PARA LOGIN
 // ============================
 
 function getLoginStrategy() {
+    const mode = SoulinkConfig.mode;
+
     return {
-        mode: 'json-only',
-        backendUrl: null,
-        useJSON: true,
-        description: 'GitHub Pages: Solo login con usuarios.json',
-        note: 'Para backend completo, ejecuta localmente con Spring Boot'
-    };
-}
-
-// ============================
-// VERIFICACIÓN DE DISPONIBILIDAD
-// ============================
-
-function checkBackendAvailability() {
-    return Promise.resolve(false); // Siempre false en GitHub Pages
-}
-
-// ============================
-// FUNCIONES DE AYUDA ESPECÍFICAS
-// ============================
-
-function getBackendUrls() {
-    return SoulinkConfig.backendUrls;
-}
-
-function isGitHubPages() {
-    return window.location.hostname.includes('github.io');
-}
-
-// ============================
-// INICIALIZACIÓN PARA GITHUB PAGES
-// ============================
-
-function initGitHubPagesMode() {
-    console.log('🚀 SOULINK configurado para GitHub Pages');
-    console.log('📄 Modo: JSON-only (sin backend)');
-    console.log('👤 Usuarios demo disponibles');
-    
-    // Mostrar información útil en consola
-    if (SoulinkConfig.debug) {
-        SoulinkConfig.demoUsers.forEach(user => {
-            console.log(`👤 Demo: ${user.email} / ${user.password}`);
-        });
-    }
-    
-    return {
-        mode: 'json-only',
-        platform: 'github-pages',
-        features: ['login-json', 'register-localstorage', 'no-backend']
+        mode: mode,
+        backendUrl: mode === 'json-only' ? null : getBackendUrl(),
+        useJSON: mode === 'json-only',
+        description: `Login usando: ${mode === 'json-only' ? 'usuarios.json' : mode + ' backend'}`
     };
 }
 
@@ -143,19 +140,11 @@ window.getBackendUrl = getBackendUrl;
 window.getApiUrl = getApiUrl;
 window.detectMode = detectMode;
 window.getLoginStrategy = getLoginStrategy;
-window.getBackendUrls = getBackendUrls;
-window.isGitHubPages = isGitHubPages;
-window.initGitHubPagesMode = initGitHubPagesMode;
+window.checkBackendAvailability = checkBackendAvailability;
 
-// Inicializar automáticamente para GitHub Pages
+// Detectar modo automáticamente al cargar
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-        detectMode();
-        initGitHubPagesMode();
-    });
+    document.addEventListener('DOMContentLoaded', detectMode);
 } else {
     detectMode();
-    initGitHubPagesMode();
 }
-
-console.log('✅ SOULINK Config cargado para GitHub Pages');

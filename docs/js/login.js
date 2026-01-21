@@ -1,16 +1,20 @@
 // ============================================
-// SOULINK - Sistema de Login para GitHub Pages
-// Versión optimizada para despliegue estático
-// Solo soporta: JSON y localStorage
+// SOULINK - Sistema de Login Multimodo
+// Soporta: Backend local, Producción y JSON fallback
 // ============================================
 
-// Configuración específica para GitHub Pages
-const GITHUB_PAGES_MODE = true;
-const LOGIN_DEBUG = false;
+// Nivel de depuración
+const LOGIN_DEBUG = true;
 
 // ==================== INICIALIZACIÓN ====================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log("🚀 SOULINK Login - Modo GitHub Pages");
+document.addEventListener('DOMContentLoaded', async function() {
+    if (LOGIN_DEBUG) console.log("🚀 Login SOULINK - Sistema multimodo inicializado");
+    
+    // Mostrar modo detectado
+    if (typeof getLoginStrategy === 'function') {
+        const strategy = getLoginStrategy();
+        console.log(`📊 Estrategia de login: ${strategy.description}`);
+    }
     
     // Configurar componentes
     setupPasswordToggles();
@@ -18,26 +22,21 @@ document.addEventListener('DOMContentLoaded', function() {
     initRegisterValidation();
     initRecoverValidation();
     initTabHandling();
-    initRealTimeValidation(); // Nueva: validación en tiempo real
-    
-    // Cargar usuarios demo automáticamente
-    loadDemoCredentials();
+    initRealTimeValidation(); // Nueva función de validación en tiempo real
 });
 
-// ==================== CARGAR CREDENCIALES DEMO ====================
-function loadDemoCredentials() {
-    if (!GITHUB_PAGES_MODE) return;
-    
-    const loginEmail = document.getElementById('loginEmail');
-    const loginPassword = document.getElementById('loginPassword');
-    
-    if (loginEmail && loginEmail.value === '') {
-        loginEmail.value = 'demo@soulink.org';
+// ==================== FUNCIONES DE CONFIGURACIÓN ====================
+function getBackendUrls() {
+    // Usar config.js si está disponible
+    if (typeof SoulinkConfig !== 'undefined' && SoulinkConfig.backendUrls) {
+        return SoulinkConfig.backendUrls;
     }
     
-    if (loginPassword && loginPassword.value === '') {
-        loginPassword.value = 'demo1234';
-    }
+    // Fallback hardcoded
+    return {
+        local: 'http://localhost:8080',
+        production: 'https://proyecto-soulink.onrender.com'
+    };
 }
 
 // ==================== TOGGLE PASSWORD ====================
@@ -209,45 +208,141 @@ function initRealTimeValidation() {
     const regTelefono = document.getElementById('regTelefono');
     if (regTelefono) {
         regTelefono.addEventListener('blur', () => validatePhone(regTelefono));
+        
         regTelefono.addEventListener('input', function() {
             if (this.classList.contains('is-invalid')) {
                 validatePhone(this);
             }
         });
-        
+
         // Formateo automático de teléfono
-        regTelefono.addEventListener('input', function(e) {
-            let value = this.value.replace(/\D/g, '');
-            if (value.length > 0) {
-                // Formato chileno: +56 9 1234 5678
-                if (value.startsWith('56') && value.length > 2) {
-                    value = '+56 ' + value.substring(2);
-                }
-                if (value.length > 3) {
-                    value = value.substring(0, 3) + ' ' + value.substring(3);
-                }
-                if (value.length > 7) {
-                    value = value.substring(0, 7) + ' ' + value.substring(7);
-                }
-                if (value.length > 12) {
-                    value = value.substring(0, 12);
-                }
+        regTelefono.addEventListener('input', function() {
+            let value = this.value.replace(/\D/g, ''); // solo números
+
+            // Si empieza con 56, eliminamos para reinsertar
+            if (value.startsWith('56')) {
+                value = value.substring(2);
             }
-            this.value = value;
+
+            // Tomamos máximo 9 dígitos (celular chileno)
+            value = value.substring(0, 9);
+
+            // Formateo: +56 9 1234 5678
+            let formatted = '+56';
+            if (value.length > 0) formatted += ' ' + value.charAt(0); // primer dígito del celular
+            if (value.length > 1) formatted += ' ' + value.substring(1, 5); // siguientes 4 dígitos
+            if (value.length > 5) formatted += ' ' + value.substring(5, 9); // últimos 4 dígitos
+
+            this.value = formatted;
         });
+    }
+    
+    // Validación de email en tiempo real
+    const regEmail = document.getElementById('regEmail');
+    if (regEmail) {
+        regEmail.addEventListener('blur', () => validateEmail(regEmail));
+    }
+    
+    // Validación de contraseña en tiempo real
+    const regPassword = document.getElementById('regPassword');
+    if (regPassword) {
+        regPassword.addEventListener('blur', () => validatePassword(regPassword));
     }
 }
 
-// ==================== LOGIN CON JSON ====================
+// ==================== BACKEND FUNCTIONS ====================
+async function loginWithBackend(email, password, backendUrl) {
+    try {
+        if (LOGIN_DEBUG) console.log(`🌐 Intentando login en backend: ${backendUrl}`);
+        
+        const response = await fetch(`${backendUrl}/usuarios/login`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+        
+        if (response.ok) {
+            const data = await response.json();
+            
+            // DEBUG: Ver estructura real
+            console.log("🔍 Respuesta backend RAW:", data);
+            
+            // El backend devuelve: {usuario: {...}, token: "..."}
+            // Pero el frontend espera que 'usuario' tenga el token dentro
+            
+            let usuario;
+            if (data.usuario && data.token) {
+                // Backend nuevo: {usuario: {...}, token: "..."}
+                usuario = {
+                    id: data.usuario.id,
+                    nombre: data.usuario.nombre,
+                    email: data.usuario.email,
+                    telefono: data.usuario.telefono,
+                    token: data.token
+                };
+            } else {
+                // Backend viejo o estructura diferente
+                usuario = data;
+            }
+            
+            return { success: true, usuario };
+            
+        } else {
+            const errorText = await response.text();
+            if (LOGIN_DEBUG) console.log(`❌ Backend error ${response.status}:`, errorText);
+            return { 
+                success: false, 
+                error: response.status === 401 ? 'Credenciales incorrectas' : 'Error del servidor'
+            };
+        }
+    } catch (error) {
+        if (LOGIN_DEBUG) console.error(`❌ Error con backend ${backendUrl}:`, error);
+        return { 
+            success: false, 
+            error: error.message.includes('Failed to fetch') ? 'Backend no disponible' : error.message
+        };
+    }
+}
+
+async function registerWithBackend(userData, backendUrl) {
+    try {
+        if (LOGIN_DEBUG) console.log(`🌐 Intentando registro en: ${backendUrl}`);
+        
+        const response = await fetch(`${backendUrl}/usuarios/register`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        });
+        
+        if (response.ok) {
+            const usuario = await response.json();
+            return { success: true, usuario };
+        } else {
+            const error = await response.json().catch(() => ({ message: 'Error en registro' }));
+            return { success: false, error: error.message };
+        }
+    } catch (error) {
+        if (LOGIN_DEBUG) console.error(`❌ Error con backend ${backendUrl}:`, error);
+        return { success: false, error: 'Backend no disponible' };
+    }
+}
+
+// ==================== LOGIN CON JSON (FALLBACK) ====================
 async function loginWithUsuariosJSON(email, password) {
     try {
-        console.log('📄 Intentando login con usuarios.json...');
+        if (LOGIN_DEBUG) console.log('📄 Intentando login con usuarios.json...');
         
         // Cargar usuarios desde JSON
         const response = await fetch('../data/usuarios.json');
         
         if (!response.ok) {
-            throw new Error('No se pudo cargar usuarios.json');
+            throw new Error(`No se pudo cargar usuarios.json: ${response.status}`);
         }
         
         const usuarios = await response.json();
@@ -256,7 +351,7 @@ async function loginWithUsuariosJSON(email, password) {
         const usuario = usuarios.find(u => u.email === email);
         
         if (!usuario) {
-            console.log('❌ Usuario no encontrado');
+            if (LOGIN_DEBUG) console.log('❌ Usuario no encontrado en usuarios.json');
             return null;
         }
         
@@ -265,13 +360,13 @@ async function loginWithUsuariosJSON(email, password) {
         try {
             contrasenaDecodificada = atob(usuario.contrasena_codificada);
         } catch (e) {
-            console.log('❌ Error decodificando contraseña');
+            if (LOGIN_DEBUG) console.log('❌ Error decodificando contraseña');
             return null;
         }
         
         // Comparar contraseñas
         if (contrasenaDecodificada === password) {
-            console.log('✅ Login exitoso');
+            if (LOGIN_DEBUG) console.log('✅ Login exitoso con usuarios.json');
             return {
                 id: usuario.id,
                 nombre: usuario.nombre_completo,
@@ -281,54 +376,52 @@ async function loginWithUsuariosJSON(email, password) {
                 avatar: usuario.avatar || ""
             };
         } else {
-            console.log('❌ Contraseña incorrecta');
+            if (LOGIN_DEBUG) console.log('❌ Contraseña incorrecta');
             return null;
         }
         
     } catch (error) {
-        console.error("❌ Error en login con usuarios.json:", error);
+        if (LOGIN_DEBUG) console.error("❌ Error en login con usuarios.json:", error);
         return null;
     }
 }
 
-// ==================== LOGIN CON LOCALSTORAGE ====================
-function loginWithLocalStorage(email, password) {
+// ==================== REGISTRO CON JSON (FALLBACK) ====================
+async function registerWithJSON(userData) {
     try {
-        console.log('💾 Intentando login con localStorage...');
+        if (LOGIN_DEBUG) console.log('📄 Registrando usuario localmente...');
         
-        // Cargar usuarios registrados localmente
-        const usuariosLocales = JSON.parse(localStorage.getItem('usuarios_locales') || '[]');
+        // Cargar usuarios existentes
+        const response = await fetch('../data/usuarios.json');
+        let usuarios = [];
         
-        // Buscar usuario
-        const usuario = usuariosLocales.find(u => u.email === email);
-        
-        if (!usuario) {
-            return null;
+        if (response.ok) {
+            usuarios = await response.json();
         }
         
-        // Decodificar contraseña Base64
-        try {
-            const contrasenaDecodificada = atob(usuario.contrasena_codificada);
-            
-            if (contrasenaDecodificada === password) {
-                console.log('✅ Login exitoso con localStorage');
-                return {
-                    id: usuario.id,
-                    nombre: usuario.nombre_completo,
-                    email: usuario.email,
-                    telefono: usuario.telefono || "",
-                    rol: usuario.rol || "usuario"
-                };
-            }
-        } catch (e) {
-            console.log('❌ Error decodificando contraseña');
-        }
+        // Crear nuevo usuario
+        const nuevoUsuario = {
+            id: Date.now(),
+            nombre_completo: userData.nombre,
+            email: userData.email,
+            telefono: userData.telefono || "",
+            contrasena_codificada: btoa(userData.password),
+            rol: "usuario",
+            fecha_registro: new Date().toISOString().split('T')[0],
+            avatar: ""
+        };
         
-        return null;
+        usuarios.push(nuevoUsuario);
+        
+        // Guardar en localStorage (simulado - en realidad no podemos modificar el JSON)
+        localStorage.setItem('usuarios_locales', JSON.stringify(usuarios));
+        
+        if (LOGIN_DEBUG) console.log('✅ Usuario registrado localmente');
+        return { success: true, usuario: nuevoUsuario };
         
     } catch (error) {
-        console.error('❌ Error en login localStorage:', error);
-        return null;
+        if (LOGIN_DEBUG) console.error('❌ Error en registro local:', error);
+        return { success: false, error: 'Error en registro local' };
     }
 }
 
@@ -337,22 +430,19 @@ function initLoginValidation() {
     const loginForm = document.getElementById('loginForm');
     if (!loginForm) return;
 
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+
     loginForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const email = document.getElementById('loginEmail').value.trim();
-        const password = document.getElementById('loginPassword').value;
-        
-        // Validación básica
-        if (!email || !password) {
-            mostrarErrorLogin("❌ Email y contraseña son requeridos");
+        // Validar campos
+        if (!validateEmail(loginEmail) || !validatePassword(loginPassword)) {
             return;
         }
 
-        // Validar email
-        if (!validateEmail(document.getElementById('loginEmail'))) {
-            return;
-        }
+        const email = loginEmail.value.trim();
+        const password = loginPassword.value;
 
         // Deshabilitar botón y mostrar loading
         const submitBtn = loginForm.querySelector('button[type="submit"]');
@@ -363,30 +453,55 @@ function initLoginValidation() {
         try {
             let usuario = null;
             let fuente = '';
+            let errorMessage = '';
             
-            console.log('=== INICIANDO LOGIN (GitHub Pages) ===');
+            if (LOGIN_DEBUG) console.log('=== INICIANDO PROCESO DE LOGIN ===');
+            if (LOGIN_DEBUG) console.log('Email:', email);
             
-            // ESTRATEGIA 1: usuarios.json
-            console.log('1. Probando usuarios.json...');
-            usuario = await loginWithUsuariosJSON(email, password);
+            // Obtener estrategia de login
+            let strategy = { mode: 'json-only' };
+            if (typeof getLoginStrategy === 'function') {
+                strategy = getLoginStrategy();
+                console.log('🎯 Estrategia de login:', strategy);
+            }
             
-            if (usuario) {
-                fuente = 'json-file';
-                console.log('✅ Login exitoso con usuarios.json');
-            } else {
-                // ESTRATEGIA 2: localStorage (usuarios registrados localmente)
-                console.log('2. Probando localStorage...');
-                usuario = loginWithLocalStorage(email, password);
+            const BACKEND_URLS = getBackendUrls();
+            
+            // ESTRATEGIA 1: Backend (local o producción)
+            if (strategy.mode !== 'json-only') {
+                const backendUrl = strategy.backendUrl;
+                
+                console.log(`1. 🔄 Probando backend (${strategy.mode}) en: ${backendUrl}`);
+                const result = await loginWithBackend(email, password, backendUrl);
+                
+                if (result.success) {
+                    usuario = result.usuario;
+                    fuente = `backend-${strategy.mode}`;
+                    console.log(`✅ Login exitoso con backend ${strategy.mode}`);
+                    console.log('📦 Datos usuario backend:', usuario);
+                } else {
+                    errorMessage = result.error;
+                    console.log(`❌ Falló backend ${strategy.mode}:`, errorMessage);
+                }
+            }
+            
+            // ESTRATEGIA 2: JSON fallback
+            if (!usuario) {
+                console.log('2. 📄 Probando usuarios.json...');
+                usuario = await loginWithUsuariosJSON(email, password);
                 
                 if (usuario) {
-                    fuente = 'localstorage';
-                    console.log('✅ Login exitoso con localStorage');
+                    fuente = 'json-fallback';
+                    console.log('✅ Login exitoso con usuarios.json');
+                    console.log('📦 Datos usuario JSON:', usuario);
+                } else {
+                    console.log('❌ Falló usuarios.json');
                 }
             }
 
             // RESULTADO FINAL
             if (usuario) {
-                // Guardar sesión
+                // 🔥 GUARDAR SESIÓN CON DEPURACIÓN
                 const usuarioParaStorage = {
                     id: usuario.id,
                     nombre: usuario.nombre || usuario.nombre_completo,
@@ -396,31 +511,59 @@ function initLoginValidation() {
                     avatar: usuario.avatar || "",
                     loginSource: fuente,
                     loginTime: new Date().toISOString(),
-                    githubPages: true
+                    token: usuario.token || null  // Guardar token si existe
                 };
                 
-                localStorage.setItem('usuarioActual', JSON.stringify(usuarioParaStorage));
-                localStorage.setItem('sesionActiva', 'true');
+                console.log('💾 Datos para guardar en sesión:', usuarioParaStorage);
+                console.log('🔑 Token disponible:', usuario.token ? 'SÍ' : 'NO');
                 
-                console.log('💾 Sesión guardada en GitHub Pages');
+                // Usar AuthManager si está disponible
+                if (typeof AuthManager !== 'undefined') {
+                    console.log('🔐 AuthManager disponible, guardando sesión...');
+                    
+                    // Si hay token JWT, usar sistema nuevo
+                    if (usuario.token) {
+                        AuthManager.saveSession(usuario.token, usuarioParaStorage);
+                        console.log('✅ Sesión guardada con AuthManager + JWT');
+                    } else {
+                        // Si no hay token, guardar solo datos de usuario
+                        console.log('⚠️ No hay token JWT, guardando solo datos de usuario');
+                        AuthManager.saveSession(null, usuarioParaStorage);
+                    }
+                } else {
+                    console.log('⚠️ AuthManager NO disponible, usando sistema antiguo');
+                    localStorage.setItem('usuarioActual', JSON.stringify(usuarioParaStorage));
+                    localStorage.setItem('sesionActiva', 'true');
+                    console.log('✅ Sesión guardada en sistema antiguo');
+                }
                 
-                // Mostrar éxito
-                mostrarExitoLogin(usuarioParaStorage.nombre);
-                
-                // Redirigir después de 2 segundos
+                // 🔥 VERIFICAR QUE SE GUARDÓ CORRECTAMENTE
                 setTimeout(() => {
-                    window.location.href = '../index.html';
-                }, 2000);
+                    console.log('🔍 VERIFICANDO ALMACENAMIENTO:');
+                    console.log('- soulink_jwt_token:', localStorage.getItem('soulink_jwt_token') ? 'SÍ' : 'NO');
+                    console.log('- soulink_user_data:', localStorage.getItem('soulink_user_data'));
+                    console.log('- usuarioActual:', localStorage.getItem('usuarioActual'));
+                    console.log('- sesionActiva:', localStorage.getItem('sesionActiva'));
+                    
+                    // Verificar autenticación
+                    if (typeof AuthManager !== 'undefined') {
+                        console.log('🔐 AuthManager.isAuthenticated():', AuthManager.isAuthenticated());
+                    }
+                }, 100);
+                
+                // 🔥 REDIRECCIÓN INTELIGENTE
+                mostrarExitoLoginConRedireccion(usuarioParaStorage.nombre);
                 
             } else {
                 // Mostrar error
-                mostrarErrorLogin("❌ Usuario o contraseña incorrectos");
+                const mensajeError = errorMessage || "Usuario o contraseña incorrectos";
+                mostrarErrorLogin(`❌ ${mensajeError}`);
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
             }
 
         } catch (error) {
-            console.error("❌ Error crítico en login:", error);
+            console.error("❌ Error crítico en proceso de login:", error);
             mostrarErrorLogin("❌ Error inesperado al iniciar sesión");
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
@@ -428,31 +571,72 @@ function initLoginValidation() {
     });
 }
 
-// ==================== REGISTRO LOCAL ====================
+// 🔥 NUEVA FUNCIÓN: Mostrar éxito con redirección inteligente
+function mostrarExitoLoginConRedireccion(nombreUsuario) {
+    const loginForm = document.getElementById('loginForm');
+    const cardBody = loginForm.closest('.card-body');
+
+    cardBody.innerHTML = `
+        <div class="login-success-container d-flex flex-column align-items-center justify-content-center py-5">
+            <i class="fas fa-check-circle text-success mb-3" style="font-size:3.5rem"></i>
+            <h4 class="mb-2 text-center">¡Bienvenido/a, ${nombreUsuario}!</h4>
+            <p class="text-muted mb-4 text-center">Sesión iniciada correctamente</p>
+            <div class="spinner-border text-primary mb-3" style="width:2.5rem;height:2.5rem"></div>
+            <p class="mb-0 text-center"><strong>Redirigiendo...</strong></p>
+        </div>
+    `;
+
+    // 🔥 LÓGICA DE REDIRECCIÓN INTELIGENTE
+    setTimeout(() => {
+        let redirectUrl = '../index.html'; // Por defecto
+        
+        // Verificar si hay carrito pendiente
+        const pendingCart = localStorage.getItem('soulink_pending_cart');
+        const redirectToCheckout = localStorage.getItem('soulink_redirect_checkout');
+        
+        if (pendingCart && redirectToCheckout) {
+            // Restaurar carrito pendiente
+            localStorage.setItem('soulink_carrito', pendingCart);
+            localStorage.removeItem('soulink_pending_cart');
+            localStorage.removeItem('soulink_redirect_checkout');
+            
+            // Redirigir a checkout
+            redirectUrl = 'checkout.html';
+            console.log('🛒 Carrito restaurado, redirigiendo a checkout...');
+        } else if (typeof AuthManager !== 'undefined') {
+            // Usar AuthManager para obtener URL de redirección
+            redirectUrl = AuthManager.getRedirectUrl();
+        }
+        
+        console.log('📍 Redirigiendo a:', redirectUrl);
+        window.location.href = redirectUrl;
+    }, 2000);
+}
+
+// ==================== REGISTRO ====================
 function initRegisterValidation() {
     const registerForm = document.getElementById('registerForm');
     if (!registerForm) return;
 
+    const regNombre = document.getElementById('regNombre');
+    const regApellido = document.getElementById('regApellido');
+    const regEmail = document.getElementById('regEmail');
+    const regPassword = document.getElementById('regPassword');
+    const regConfirmPassword = document.getElementById('regConfirmPassword');
+    const regTelefono = document.getElementById('regTelefono');
+    const acceptTerms = document.getElementById('acceptTerms');
+
     registerForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Obtener elementos
-        const regNombre = document.getElementById('regNombre');
-        const regApellido = document.getElementById('regApellido');
-        const regEmail = document.getElementById('regEmail');
-        const regPassword = document.getElementById('regPassword');
-        const regConfirmPassword = document.getElementById('regConfirmPassword');
-        const regTelefono = document.getElementById('regTelefono');
-        const acceptTerms = document.getElementById('acceptTerms');
-        
-        // Validaciones mejoradas
+        // Validaciones mejoradas con funciones específicas
         if (!validateName(regNombre) || !validateName(regApellido)) return;
         if (!validateEmail(regEmail)) return;
         if (!validatePassword(regPassword)) return;
         if (!validatePhone(regTelefono)) return;
         
         if (regPassword.value !== regConfirmPassword.value) {
-            alert("❌ Las contraseñas no coinciden");
+            showError(regConfirmPassword, "Las contraseñas no coinciden");
             return;
         }
         
@@ -475,73 +659,103 @@ function initRegisterValidation() {
         submitBtn.disabled = true;
 
         try {
-            console.log('=== REGISTRO LOCAL EN GITHUB PAGES ===');
+            let resultado = null;
+            let fuente = '';
             
-            // Cargar usuarios existentes
-            const usuariosLocales = JSON.parse(localStorage.getItem('usuarios_locales') || '[]');
-            
-            // Verificar si el email ya existe
-            const emailExiste = usuariosLocales.some(u => u.email === email);
-            
-            if (emailExiste) {
-                alert("❌ Este email ya está registrado");
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                return;
-            }
-            
-            // Crear nuevo usuario
-            const nuevoUsuario = {
-                id: Date.now(),
-                nombre_completo: nombreCompleto,
-                email: email,
-                telefono: telefono || "",
-                contrasena_codificada: btoa(password), // Base64
-                rol: "usuario",
-                fecha_registro: new Date().toISOString().split('T')[0],
-                avatar: "",
-                registro_local: true,
-                github_pages: true
-            };
-            
-            // Agregar a la lista
-            usuariosLocales.push(nuevoUsuario);
-            
-            // Guardar en localStorage
-            localStorage.setItem('usuarios_locales', JSON.stringify(usuariosLocales));
-            
-            console.log('✅ Usuario registrado localmente:', nuevoUsuario);
-            
-            // Guardar sesión automáticamente
-            const usuarioParaStorage = {
-                id: nuevoUsuario.id,
+            // Datos del usuario
+            const userData = {
                 nombre: nombreCompleto,
                 email: email,
-                telefono: telefono || "",
-                rol: "usuario",
-                registerSource: 'localstorage',
-                registerTime: new Date().toISOString(),
-                githubPages: true
+                password: password,
+                telefono: telefono,
+                id_rol: 2 // Usuario normal
             };
             
-            localStorage.setItem('usuarioActual', JSON.stringify(usuarioParaStorage));
-            localStorage.setItem('sesionActiva', 'true');
+            if (LOGIN_DEBUG) console.log('=== INICIANDO PROCESO DE REGISTRO ===');
             
-            // Mostrar mensaje de éxito
-            alert(`✅ ¡Registro exitoso! Bienvenido/a ${nombreCompleto}`);
+            // Obtener estrategia
+            let strategy = { mode: 'json-only' };
+            if (typeof getLoginStrategy === 'function') {
+                strategy = getLoginStrategy();
+            }
             
-            // Cambiar a pestaña de login
-            document.getElementById('loginEmail').value = email;
-            document.querySelector('#login-tab').click();
+            const BACKEND_URLS = getBackendUrls();
             
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 2000);
+            // ESTRATEGIA 1: Backend
+            if (strategy.mode !== 'json-only') {
+                const backendUrl = strategy.backendUrl;
+                
+                if (LOGIN_DEBUG) console.log(`1. Probando registro en backend (${strategy.mode})...`);
+                resultado = await registerWithBackend(userData, backendUrl);
+                
+                if (resultado.success) {
+                    fuente = `backend-${strategy.mode}`;
+                    if (LOGIN_DEBUG) console.log(`✅ Registro exitoso en backend ${strategy.mode}`);
+                } else {
+                    if (LOGIN_DEBUG) console.log(`❌ Falló registro en backend ${strategy.mode}:`, resultado.error);
+                }
+            }
             
+            // ESTRATEGIA 2: JSON/localStorage
+            if (!resultado || !resultado.success) {
+                if (LOGIN_DEBUG) console.log('2. Registrando localmente...');
+                resultado = await registerWithJSON(userData);
+                
+                if (resultado.success) {
+                    fuente = 'local-fallback';
+                    if (LOGIN_DEBUG) console.log('✅ Registro exitoso localmente');
+                } else {
+                    if (LOGIN_DEBUG) console.log('❌ Falló registro local:', resultado.error);
+                }
+            }
+
+            // RESULTADO FINAL
+            if (resultado && resultado.success) {
+                // Guardar sesión automáticamente
+                const usuarioCreado = resultado.usuario;
+                const usuarioParaStorage = {
+                    id: usuarioCreado.id,
+                    nombre: usuarioCreado.nombre || usuarioCreado.nombre_completo,
+                    email: usuarioCreado.email,
+                    telefono: usuarioCreado.telefono || telefono,
+                    rol: usuarioCreado.rol || "usuario",
+                    registerSource: fuente,
+                    registerTime: new Date().toISOString()
+                };
+                
+                // Usar AuthManager si está disponible
+                if (typeof AuthManager !== 'undefined') {
+                    AuthManager.saveSession(null, usuarioParaStorage); // Sin token para registro local
+                } else {
+                    localStorage.setItem('usuarioActual', JSON.stringify(usuarioParaStorage));
+                    localStorage.setItem('sesionActiva', 'true');
+                }
+                
+                // Mostrar mensaje de éxito
+                alert(`✅ ¡Registro exitoso! Bienvenido/a ${usuarioParaStorage.nombre}`);
+                
+                // Cambiar a pestaña de login
+                document.getElementById('loginEmail').value = email;
+                document.querySelector('#login-tab').click();
+                
+                // Redirigir después de 2 segundos
+                setTimeout(() => {
+                    let redirectUrl = '../index.html';
+                    if (typeof AuthManager !== 'undefined') {
+                        redirectUrl = AuthManager.getRedirectUrl();
+                    }
+                    window.location.href = redirectUrl;
+                }, 2000);
+                
+            } else {
+                alert(`❌ Error al registrar: ${resultado ? resultado.error : 'Error desconocido'}`);
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+
         } catch (error) {
-            console.error("❌ Error en registro:", error);
-            alert("❌ Error al registrar el usuario");
+            if (LOGIN_DEBUG) console.error("❌ Error crítico en registro:", error);
+            alert("❌ Error inesperado al registrar");
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
@@ -553,23 +767,20 @@ function initRecoverValidation() {
     const recoverForm = document.getElementById('recoverForm');
     if (!recoverForm) return;
     
+    const recoverEmail = document.getElementById('recoverEmail');
     const recoverSuccess = document.getElementById('recoverSuccess');
 
     recoverForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const emailInput = document.getElementById('recoverEmail');
-        const email = emailInput.value.trim();
+        if (!validateEmail(recoverEmail)) return;
         
-        // Validar email
-        if (!validateEmail(emailInput)) {
-            return;
-        }
+        const email = recoverEmail.value.trim();
         
-        // Simular envío (en GitHub Pages no hay backend)
-        console.log(`📧 Simulando recuperación para: ${email}`);
+        // Simular envío
+        if (LOGIN_DEBUG) console.log(`📧 Enviando recuperación a: ${email}`);
         
-        // Mostrar mensaje de éxito simulado
+        // Mostrar éxito (simulado)
         recoverSuccess.style.display = 'block';
         recoverForm.reset();
         
@@ -615,26 +826,14 @@ function mostrarErrorLogin(mensaje) {
     setTimeout(() => loginForm.classList.remove('login-error'), 500);
 }
 
+// Reemplazar la función mostrarExitoLogin antigua
 function mostrarExitoLogin(nombreUsuario) {
-    const loginForm = document.getElementById('loginForm');
-    const cardBody = loginForm.closest('.card-body');
-
-    cardBody.innerHTML = `
-        <div class="login-success-container d-flex flex-column align-items-center justify-content-center py-5">
-            <i class="fas fa-check-circle text-success mb-3" style="font-size:3.5rem"></i>
-            <h4 class="mb-2 text-center">¡Bienvenido/a, ${nombreUsuario}!</h4>
-            <p class="text-muted mb-4 text-center">Sesión iniciada correctamente en GitHub Pages</p>
-            <div class="spinner-border text-primary mb-3" style="width:2.5rem;height:2.5rem"></div>
-            <p class="mb-0 text-center"><strong>Redirigiendo al inicio...</strong></p>
-            <a href="../index.html" class="btn btn-primary btn-sm mt-3">
-                <i class="fas fa-home"></i> Ir al inicio ahora
-            </a>
-        </div>
-    `;
+    mostrarExitoLoginConRedireccion(nombreUsuario);
 }
 
-// ==================== EXPORTAR FUNCIONES ====================
+// ==================== EXPORTAR FUNCIONES ÚTILES ====================
+window.loginWithBackend = loginWithBackend;
 window.loginWithUsuariosJSON = loginWithUsuariosJSON;
-window.loginWithLocalStorage = loginWithLocalStorage;
+window.getBackendUrls = getBackendUrls;
 
-console.log("✅ login.js cargado para GitHub Pages");
+if (LOGIN_DEBUG) console.log("✅ login.js cargado correctamente");
