@@ -115,184 +115,389 @@ Tu contribución ayuda a:
 proyecto-soulink/
 ├── frontend/                 <-- Sitio web estático (Vercel)
 │   ├── assets/
-│   │   ├── images/
-│   │   │   ├── Conejo/
-│   │   │   ├── MerchConsejin/
-│   │   │   ├── team/
-│   ├── pages/
-│   │   ├── acerca.html
-│   │   ├── servicios.html
-│   │   ├── contacto.html
-│   │   ├── tienda.html
-│   │   ├── carrito.html
-│   │   ├── checkout.html                
-│   │   ├── configuracion.html
-│   │   ├── colaboraciones.html
-│   │   ├── perfil.html
-│   │   ├── login.html
-│   │   ├── comunidad.html
-│   │   └── admin/
-│   │       ├── index.html
-│   │       ├── admin_login.html
-│   │       ├── panel_admin.html
-│   │       ├── agregar-producto.html
-│   │       ├── agregar-articulo.html
-│   │       └── js/
-│   │           ├── login_admin.js
-│   │           └── admin-protection.js
-│   ├── js/
-│   │   ├── login.js
-│   │   ├── config.js
-│   │   ├── soulink.js
+│   │   └── images/
+│   │       ├── Conejo/
+│   │       │   ├── consejinsos.png
+│   │       │   ├── hero-bg.png
+│   │       │   ├── inicio.png
+│   │       │   ├── logo.png
+│   │       │   ├── logo_acerca.png
+│   │       │   ├── product-1.png
+│   │       │   ├── product-2.png
+│   │       │   ├── product-3.png
+│   │       │   ├── product-4.png
+│   │       │   ├── product-5.png
+│   │       │   ├── product-6.png
+│   │       │   ├── product3.png
+│   │       │   └── testimonio.png
+│   │       ├── MerchConsejin/
+│   │       │   ├── Amigurumis/
+│   │       │   │   ├── amigurumi1.png
+│   │       │   │   ├── amigurumi2.png
+│   │       │   │   └── amigurumi3.png
+│   │       │   ├── Bola Antiestres/
+│   │       │   │   ├── Gemini_Generated_Image_d81fmqd81fmqd81f.png
+│   │       │   │   ├── Gemini_Generated_Image_dp47tedp47tedp47.png
+│   │       │   │   ├── Gemini_Generated_Image_eh2892eh2892eh28.png
+│   │       │   │   ├── Gemini_Generated_Image_qer2yvqer2yvqer2.png
+│   │       │   │   ├── Gemini_Generated_Image_uofnu5uofnu5uofn.png
+│   │       │   │   └── Gemini_Generated_Image_xf5ipkxf5ipkxf5i.png
+│   │       │   ├── Poleras/
+│   │       │   │   ├── camiseta-soulink.png
+│   │       │   │   ├── Gemini_Generated_Image_gupkjygupkjygupk.png
+│   │       │   │   ├── Gemini_Generated_Image_r3xo8vr3xo8vr3xo.png
+│   │       │   │   ├── Gemini_Generated_Image_vdc1x7vdc1x7vdc1.png
+│   │       │   │   ├── Gemini_Generated_Image_xg9hsmxg9hsmxg9h.png
+│   │       │   │   └── hoodie-soulink.png
+│   │       │   └── Stickers/
+│   │       │       ├── Gemini_Generated_Image_fqrupfqrupfqrupf.png
+│   │       │       ├── Gemini_Generated_Image_i0zxg2i0zxg2i0zx.png
+│   │       │       ├── Gemini_Generated_Image_n22m49n22m49n22m.png
+│   │       │       ├── sticker-pack.png
+│   │       │       ├── stickers-emociones.png
+│   │       │       └── stickers-frases.png
+│   │       ├── team/
+│   │       │   ├── agustin.png
+│   │       │   ├── anita.jpeg
+│   │       │   ├── Javier.png
+│   │       │   ├── karim.png
+│   │       │   ├── Mauricio.png
+│   │       │   ├── Nico.png
+│   │       │   └── Vicente.jpeg
+│   │       ├── asilva.png
+│   │       ├── autocuidado.png
+│   │       ├── ChatBot.png
+│   │       ├── crodriguez.png
+│   │       ├── duelo.png
+│   │       ├── estres.png
+│   │       ├── lfernandez.png
+│   │       ├── logo.png
+│   │       ├── logo_conejo.png
+│   │       ├── logo_Q-ERO.png
+│   │       ├── logo_sin_nombre.png
+│   │       ├── MaGonzalez.png
+│   │       ├── manejoansiedad.png
+│   │       ├── pmartinez.png
+│   │       ├── Screenshots_acerca.png
+│   │       ├── Screenshots_contacto.png
+│   │       ├── ss-Articulos.png
+│   │       ├── ss-Carrito.png
+│   │       ├── ss-Formulario-AgregarArticulo.png
+│   │       ├── ss-Formulario-AgregarProducto.png
+│   │       ├── ss-Tienda.png
+│   │       ├── ss-v-crearcuenta.png
+│   │       ├── ss-v-iniciarsesion.png
+│   │       ├── ss_agregarproducto-articulo.png
+│   │       ├── ss_bdcifrada.png
+│   │       ├── ss_brunocifrado.png
+│   │       ├── ss_configuracionperfil.png
+│   │       ├── ss_ConsultaTablas.png
+│   │       ├── ss_estructurabruno.png
+│   │       ├── ss_get-productos.png
+│   │       ├── ss_login-usuario.png
+│   │       ├── ss_loginadmin.png
+│   │       ├── ss_loginadmin2.png
+│   │       ├── ss_loginclienteaceptado.png
+│   │       ├── ss_perfilusuario.png
+│   │       ├── ss_post-producto.png
+│   │       ├── ss_putusuario.png
+│   │       ├── ss_registrar-usuario.png
+│   │       ├── ss_TablasPostgreSQL.png
+│   │       └── ss_validacionlogin.png
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
-│   │   ├── usuarios.json
-│   │   ├── productos.json               
-│   │   ├── DER_soulink.png
-│   │   └── soulink.sql
+│   │   ├── productos.json
+│   │   ├── soulink.sql
+│   │   └── usuarios.json
+│   ├── js/
+│   │   ├── auth.js
+│   │   ├── checkout-auth.js
+│   │   ├── config.js
+│   │   ├── login.js
+│   │   └── soulink.js
+│   ├── pages/
+│   │   ├── admin/
+│   │   │   ├── js/
+│   │   │   │   ├── admin-protection.js
+│   │   │   │   └── login_admin.js
+│   │   │   ├── admin_login.html
+│   │   │   ├── agregar-articulo.html
+│   │   │   ├── agregar-producto.html
+│   │   │   ├── index.html
+│   │   │   └── panel_admin.html
+│   │   ├── acerca.html
+│   │   ├── carrito.html
+│   │   ├── checkout.html
+│   │   ├── colaboraciones.html
+│   │   ├── comunidad.html
+│   │   ├── configuracion.html
+│   │   ├── contacto.html
+│   │   ├── login.html
+│   │   ├── perfil.html
+│   │   ├── servicios.html
+│   │   └── tienda.html
 │   ├── .env
 │   └── index.html
 │
 ├── backend/                  <-- Backend Java Spring Boot (Render)
-│   ├── Soulink API/        
-│   │   ├── Articulos/
-│   │   ├── Clientes/
-│   │   ├── Compras/
-│   │   ├── Productos/
-│   │   ├── Roles/
-│   │   ├── Usuarios/
-│   │   ├── Ventas/
-│   │   └── bruno.json
+│   ├── .idea/
+│   │   ├── .gitignore
+│   │   ├── compiler.xml
+│   │   ├── encodings.xml
+│   │   ├── jarRepositories.xml
+│   │   ├── misc.xml
+│   │   ├── vcs.xml
+│   │   └── workspace.xml
 │   ├── .mvn/
 │   │   └── wrapper/
 │   │       └── maven-wrapper.properties
-│   ├── .idea/
+│   ├── Soulink API/
+│   │   ├── Articulos/
+│   │   │   ├── Añadir Articulo.bru
+│   │   │   ├── Consultar Articulos.bru
+│   │   │   ├── Eliminar Articulo.bru
+│   │   │   └── folder.bru
+│   │   ├── Clientes/
+│   │   │   ├── Añadir Clientes.bru
+│   │   │   ├── Consultar Clientes.bru
+│   │   │   ├── Eliminar Clientes.bru
+│   │   │   └── folder.bru
+│   │   ├── Compras/
+│   │   │   ├── Añadir Compra.bru
+│   │   │   ├── Consultar Compras.bru
+│   │   │   ├── Eliminar Compra.bru
+│   │   │   └── folder.bru
+│   │   ├── Productos/
+│   │   │   ├── Añadir Producto.bru
+│   │   │   ├── Consultar Productos.bru
+│   │   │   ├── Eliminar Producto.bru
+│   │   │   └── folder.bru
+│   │   ├── Roles/
+│   │   │   ├── Añadir Roles.bru
+│   │   │   ├── Consultar Roles.bru
+│   │   │   ├── Eliminar Roles.bru
+│   │   │   └── folder.bru
+│   │   ├── Usuarios/
+│   │   │   ├── Actualizar Usuario.bru
+│   │   │   ├── Consultar Usuarios.bru
+│   │   │   ├── Eliminar Usuario.bru
+│   │   │   ├── folder.bru
+│   │   │   ├── Login Prod Usuario.bru
+│   │   │   ├── Login Usuario.bru
+│   │   │   └── Registrar Usuario.bru
+│   │   ├── Ventas/
+│   │   │   ├── Añadir Ventas.bru
+│   │   │   ├── Consultar Ventas.bru
+│   │   │   ├── Eliminar Venta.bru
+│   │   │   └── folder.bru
+│   │   └── bruno.json
 │   ├── src/
-│   │   ├── main/java/com/soulink/
-│   │   │   ├── config/
-│   │   │   │   ├── CorsConfig.java
-│   │   │   │   ├── EnvConfig.java
-│   │   │   │   ├── JwtAuthenticationFilter.java
-│   │   │   │   ├── JwtTokenProvider.java
-│   │   │   │   ├── PasswordEncoderConfig.java
-│   │   │   │   └── SecurityConfig.java
-│   │   │   ├── controller/
-│   │   │   │   ├── ArticulosController.java
-│   │   │   │   ├── ClientesController.java
-│   │   │   │   ├── ComprasController.java
-│   │   │   │   ├── ProductosController.java
-│   │   │   │   ├── RolesController.java
-│   │   │   │   ├── StockController.java          
-│   │   │   │   ├── UsuarioController.java
-│   │   │   │   └── VentasController.java
-│   │   │   ├── dto/
-│   │   │   │   ├── request/
-│   │   │   │   │   ├── LoginRequestDTO.java
-│   │   │   │   │   ├── UsuarioRegisterDTO.java
-│   │   │   │   │   └── UsuarioUpdateDTO.java
-│   │   │   │   └── response/
-│   │   │   │       ├── LoginResponseDTO.java
-│   │   │   │       └── UsuarioResponseDTO.java
-│   │   │   ├── exception/
-│   │   │   │   ├── BadRequestException.java
-│   │   │   │   ├── ErrorResponseDTO.java
-│   │   │   │   ├── GlobalExceptionHandler.java
-│   │   │   │   ├── ResourceNotFoundException.java
-│   │   │   │   └── UnauthorizedException.java
-│   │   │   ├── mapper/
-│   │   │   │   └── UsuarioMapper.java
-│   │   │   ├── model/
-│   │   │   │   ├── Articulo.java
-│   │   │   │   ├── Cliente.java
-│   │   │   │   ├── Compra.java
-│   │   │   │   ├── Producto.java
-│   │   │   │   ├── Rol.java
-│   │   │   │   ├── Usuario.java
-│   │   │   │   └── Venta.java
-│   │   │   ├── repository/
-│   │   │   │   ├── ArticulosRepository.java
-│   │   │   │   ├── ClientesRepository.java
-│   │   │   │   ├── ComprasRepository.java
-│   │   │   │   ├── ProductosRepository.java
-│   │   │   │   ├── RolesRepository.java
-│   │   │   │   ├── UsuarioRepository.java
-│   │   │   │   └── VentasRepository.java
-│   │   │   └── service/
-│   │   │       ├── ArticulosService.java
-│   │   │       ├── ClientesService.java
-│   │   │       ├── ComprasService.java
-│   │   │       ├── ProductosService.java
-│   │   │       ├── RolesService.java
-│   │   │       ├── UsuarioService.java
-│   │   │       ├── VentasService.java
-│   │   │       └── impl/
-│   │   │           ├── ArticulosServiceImpl.java
-│   │   │           ├── ClientesServiceImpl.java
-│   │   │           ├── ComprasServiceImpl.java
-│   │   │           ├── ProductosServiceImpl.java
-│   │   │           ├── RolesServiceImpl.java
-│   │   │           ├── UsuarioServiceImpl.java
-│   │   │           └── VentasServiceImpl.java
-│   │   └── resources/
-│   │       ├── application-dev.yaml
-│   │       └── application.yaml
-│   ├── target/              
+│   │   ├── main/
+│   │   │   ├── java/com/soulink/
+│   │   │   │   ├── config/
+│   │   │   │   │   ├── CorsConfig.java
+│   │   │   │   │   ├── EnvConfig.java
+│   │   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   │   ├── JwtTokenProvider.java
+│   │   │   │   │   ├── PasswordEncoderConfig.java
+│   │   │   │   │   └── SecurityConfig.java
+│   │   │   │   ├── controller/
+│   │   │   │   │   ├── ArticulosController.java
+│   │   │   │   │   ├── ClientesController.java
+│   │   │   │   │   ├── ComprasController.java
+│   │   │   │   │   ├── ProductosController.java
+│   │   │   │   │   ├── RolesController.java
+│   │   │   │   │   ├── StockController.java
+│   │   │   │   │   ├── UsuarioController.java
+│   │   │   │   │   └── VentasController.java
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── request/
+│   │   │   │   │   │   ├── LoginRequestDTO.java
+│   │   │   │   │   │   ├── UsuarioRegisterDTO.java
+│   │   │   │   │   │   └── UsuarioUpdateDTO.java
+│   │   │   │   │   └── response/
+│   │   │   │   │       ├── LoginResponseDTO.java
+│   │   │   │   │       └── UsuarioResponseDTO.java
+│   │   │   │   ├── exception/
+│   │   │   │   │   ├── BadRequestException.java
+│   │   │   │   │   ├── ErrorResponseDTO.java
+│   │   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   │   └── UnauthorizedException.java
+│   │   │   │   ├── mapper/
+│   │   │   │   │   └── UsuarioMapper.java
+│   │   │   │   ├── model/
+│   │   │   │   │   ├── Articulo.java
+│   │   │   │   │   ├── Cliente.java
+│   │   │   │   │   ├── Compra.java
+│   │   │   │   │   ├── Producto.java
+│   │   │   │   │   ├── Rol.java
+│   │   │   │   │   ├── Usuario.java
+│   │   │   │   │   └── Venta.java
+│   │   │   │   ├── repository/
+│   │   │   │   │   ├── ArticulosRepository.java
+│   │   │   │   │   ├── ClientesRepository.java
+│   │   │   │   │   ├── ComprasRepository.java
+│   │   │   │   │   ├── ProductosRepository.java
+│   │   │   │   │   ├── RolesRepository.java
+│   │   │   │   │   ├── UsuarioRepository.java
+│   │   │   │   │   └── VentasRepository.java
+│   │   │   │   └── service/
+│   │   │   │       ├── ArticulosService.java
+│   │   │   │       ├── ClientesService.java
+│   │   │   │       ├── ComprasService.java
+│   │   │   │       ├── ProductosService.java
+│   │   │   │       ├── RolesService.java
+│   │   │   │       ├── UsuarioService.java
+│   │   │   │       ├── VentasService.java
+│   │   │   │       └── impl/
+│   │   │   │           ├── ArticulosServiceImpl.java
+│   │   │   │           ├── ClientesServiceImpl.java
+│   │   │   │           ├── ComprasServiceImpl.java
+│   │   │   │           ├── ProductosServiceImpl.java
+│   │   │   │           ├── RolesServiceImpl.java
+│   │   │   │           ├── UsuarioServiceImpl.java
+│   │   │   │           └── VentasServiceImpl.java
+│   │   │   └── resources/
+│   │   │       ├── application-dev.yaml
+│   │   │       └── application.yaml
+│   │   └── test/
+│   │       └── java/com/soulink/
+│   │           └── SoulinkApplicationTests.java
+│   ├── target/
+│   │   ├── classes/
+│   │   │   ├── com/soulink/
+│   │   │   │   ├── config/
+│   │   │   │   │   ├── CorsConfig$1.class
+│   │   │   │   │   ├── CorsConfig.class
+│   │   │   │   │   ├── EnvConfig.class
+│   │   │   │   │   ├── JwtAuthenticationFilter.class
+│   │   │   │   │   ├── JwtTokenProvider.class
+│   │   │   │   │   ├── PasswordEncoderConfig.class
+│   │   │   │   │   └── SecurityConfig.class
+│   │   │   │   ├── controller/
+│   │   │   │   │   ├── ArticulosController.class
+│   │   │   │   │   ├── ClientesController.class
+│   │   │   │   │   ├── ComprasController.class
+│   │   │   │   │   ├── ProductosController.class
+│   │   │   │   │   ├── RolesController.class
+│   │   │   │   │   ├── StockController.class
+│   │   │   │   │   ├── UsuarioController.class
+│   │   │   │   │   └── VentasController.class
+│   │   │   │   ├── dto/
+│   │   │   │   │   ├── request/
+│   │   │   │   │   │   ├── LoginRequestDTO.class
+│   │   │   │   │   │   ├── UsuarioRegisterDTO.class
+│   │   │   │   │   │   └── UsuarioUpdateDTO.class
+│   │   │   │   │   └── response/
+│   │   │   │   │       ├── LoginResponseDTO.class
+│   │   │   │   │       └── UsuarioResponseDTO.class
+│   │   │   │   ├── exception/
+│   │   │   │   │   ├── BadRequestException.class
+│   │   │   │   │   ├── ErrorResponseDTO.class
+│   │   │   │   │   ├── GlobalExceptionHandler.class
+│   │   │   │   │   ├── ResourceNotFoundException.class
+│   │   │   │   │   └── UnauthorizedException.class
+│   │   │   │   ├── mapper/
+│   │   │   │   │   └── UsuarioMapper.class
+│   │   │   │   ├── model/
+│   │   │   │   │   ├── Articulo.class
+│   │   │   │   │   ├── Cliente.class
+│   │   │   │   │   ├── Compra.class
+│   │   │   │   │   ├── Producto.class
+│   │   │   │   │   ├── Rol.class
+│   │   │   │   │   ├── Usuario.class
+│   │   │   │   │   └── Venta.class
+│   │   │   │   ├── repository/
+│   │   │   │   │   ├── ArticulosRepository.class
+│   │   │   │   │   ├── ClientesRepository.class
+│   │   │   │   │   ├── ComprasRepository.class
+│   │   │   │   │   ├── ProductosRepository.class
+│   │   │   │   │   ├── RolesRepository.class
+│   │   │   │   │   ├── UsuarioRepository.class
+│   │   │   │   │   └── VentasRepository.class
+│   │   │   │   └── service/
+│   │   │   │       ├── ArticulosService.class
+│   │   │   │       ├── ClientesService.class
+│   │   │   │       ├── ComprasService.class
+│   │   │   │       ├── ProductosService.class
+│   │   │   │       ├── RolesService.class
+│   │   │   │       ├── UsuarioService.class
+│   │   │   │       ├── VentasService.class
+│   │   │   │       └── impl/
+│   │   │   │           ├── ArticulosServiceImpl.class
+│   │   │   │           ├── ClientesServiceImpl.class
+│   │   │   │           ├── ComprasServiceImpl.class
+│   │   │   │           ├── ProductosServiceImpl.class
+│   │   │   │           ├── RolesServiceImpl.class
+│   │   │   │           ├── UsuarioServiceImpl.class
+│   │   │   │           └── VentasServiceImpl.class
+│   │   │   ├── application-dev.yaml
+│   │   │   └── application.yaml
+│   │   ├── generated-sources/
+│   │   │   └── annotations/
+│   │   ├── generated-test-sources/
+│   │   │   └── test-annotations/
+│   │   └── test-classes/
+│   │       └── com/soulink/
+│   │           └── SoulinkApplicationTests.class
 │   ├── .dockerignore
 │   ├── .env
 │   ├── datos.env.txt
-│   ├── Dockerfile          
+│   ├── Dockerfile
 │   ├── mvnw
 │   ├── mvnw.cmd
 │   ├── pom.xml
 │   └── SoulinkApplication.java
 │
-├── docs/                     <-- Copia para GitHub Pages (si la necesitas)
+├── docs/                     <-- Copia para GitHub Pages
 │   ├── assets/
-│   │   ├── images/
-│   │   │   ├── Conejo/
-│   │   │   ├── MerchConsejin/
-│   │   │   ├── team/
-│   ├── pages/
-│   │   ├── acerca.html
-│   │   ├── servicios.html
-│   │   ├── contacto.html
-│   │   ├── tienda.html
-│   │   ├── carrito.html
-│   │   ├── checkout.html                
-│   │   ├── configuracion.html
-│   │   ├── colaboraciones.html
-│   │   ├── perfil.html
-│   │   ├── login.html
-│   │   ├── comunidad.html
-│   │   └── admin/
-│   │       ├── index.html
-│   │       ├── admin_login.html
-│   │       ├── panel_admin.html
-│   │       ├── agregar-producto.html
-│   │       ├── agregar-articulo.html
-│   │       └── js/
-│   │           ├── login_admin.js
-│   │           └── admin-protection.js
-│   ├── js/
-│   │   ├── login.js
-│   │   ├── config.js
-│   │   ├── soulink.js
+│   │   └── images/
+│   │       ├── Conejo/
+│   │       ├── MerchConsejin/
+│   │       └── team/
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
-│   │   ├── usuarios.json
-│   │   ├── productos.json               
-│   │   ├── DER_soulink.png
-│   │   └── soulink.sql
-│   ├── .env
+│   │   ├── productos.json
+│   │   ├── soulink.sql
+│   │   └── usuarios.json
+│   ├── js/
+│   │   ├── auth.js
+│   │   ├── checkout-auth.js
+│   │   ├── config.js
+│   │   ├── login.js
+│   │   └── soulink.js
+│   ├── pages/
+│   │   ├── admin/
+│   │   │   ├── js/
+│   │   │   │   ├── admin-protection.js
+│   │   │   │   └── login_admin.js
+│   │   │   ├── admin_login.html
+│   │   │   ├── agregar-articulo.html
+│   │   │   ├── agregar-producto.html
+│   │   │   ├── index.html
+│   │   │   └── panel_admin.html
+│   │   ├── acerca.html
+│   │   ├── carrito.html
+│   │   ├── checkout.html
+│   │   ├── colaboraciones.html
+│   │   ├── comunidad.html
+│   │   ├── configuracion.html
+│   │   ├── contacto.html
+│   │   ├── login.html
+│   │   ├── perfil.html
+│   │   ├── servicios.html
+│   │   └── tienda.html
 │   └── index.html
+│
 ├── ACCESO LOGIN Y ADMIN.txt
 ├── .gitignore
 ├── .gitattributes
-└── README.md                            
+└── README.md                
                 
 
 ```
@@ -384,6 +589,7 @@ proyecto-soulink/
 ## 📸 Screenshot 22 - DBeaver - Usuarios CIFRADOS
 
 ![DBeaver - Usuarios CIFRADOS](frontend/assets/images/ss_bdcifrada.png)
+
 
 
 
