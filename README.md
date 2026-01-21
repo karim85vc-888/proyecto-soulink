@@ -113,18 +113,19 @@ Tu contribución ayuda a:
 ## 📁 Estructura del Proyecto
 ```
 proyecto-soulink/
-├── frontend/                 <-- Sitio web estático
+├── frontend/                 <-- Sitio web estático (Vercel)
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── Conejo/
 │   │   │   ├── MerchConsejin/
-│   │   │   └── team/
+│   │   │   ├── team/
 │   ├── pages/
 │   │   ├── acerca.html
 │   │   ├── servicios.html
 │   │   ├── contacto.html
 │   │   ├── tienda.html
 │   │   ├── carrito.html
+│   │   ├── checkout.html                
 │   │   ├── configuracion.html
 │   │   ├── colaboraciones.html
 │   │   ├── perfil.html
@@ -142,105 +143,124 @@ proyecto-soulink/
 │   ├── js/
 │   │   ├── login.js
 │   │   ├── config.js
-│   │   └── soulink.js
+│   │   ├── soulink.js
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
 │   │   ├── usuarios.json
+│   │   ├── productos.json               
 │   │   ├── DER_soulink.png
-│   │   ├── soulink.sql
-│   │   └── productos.json
-│   ├── index.html
-│   └── README.md
+│   │   └── soulink.sql
+│   ├── .env
+│   └── index.html
 │
-├── backend/                  <-- Backend Java (Spring Boot)
+├── backend/                  <-- Backend Java Spring Boot (Render)
+│   ├── Soulink API/        
+│   │   ├── Articulos/
+│   │   ├── Clientes/
+│   │   ├── Compras/
+│   │   ├── Productos/
+│   │   ├── Roles/
+│   │   ├── Usuarios/
+│   │   ├── Ventas/
+│   │   └── bruno.json
 │   ├── .mvn/
 │   │   └── wrapper/
 │   │       └── maven-wrapper.properties
+│   ├── .idea/
+│   ├── src/
+│   │   ├── main/java/com/soulink/
+│   │   │   ├── config/
+│   │   │   │   ├── CorsConfig.java
+│   │   │   │   ├── EnvConfig.java
+│   │   │   │   ├── JwtAuthenticationFilter.java
+│   │   │   │   ├── JwtTokenProvider.java
+│   │   │   │   ├── PasswordEncoderConfig.java
+│   │   │   │   └── SecurityConfig.java
+│   │   │   ├── controller/
+│   │   │   │   ├── ArticulosController.java
+│   │   │   │   ├── ClientesController.java
+│   │   │   │   ├── ComprasController.java
+│   │   │   │   ├── ProductosController.java
+│   │   │   │   ├── RolesController.java
+│   │   │   │   ├── StockController.java          
+│   │   │   │   ├── UsuarioController.java
+│   │   │   │   └── VentasController.java
+│   │   │   ├── dto/
+│   │   │   │   ├── request/
+│   │   │   │   │   ├── LoginRequestDTO.java
+│   │   │   │   │   ├── UsuarioRegisterDTO.java
+│   │   │   │   │   └── UsuarioUpdateDTO.java
+│   │   │   │   └── response/
+│   │   │   │       ├── LoginResponseDTO.java
+│   │   │   │       └── UsuarioResponseDTO.java
+│   │   │   ├── exception/
+│   │   │   │   ├── BadRequestException.java
+│   │   │   │   ├── ErrorResponseDTO.java
+│   │   │   │   ├── GlobalExceptionHandler.java
+│   │   │   │   ├── ResourceNotFoundException.java
+│   │   │   │   └── UnauthorizedException.java
+│   │   │   ├── mapper/
+│   │   │   │   └── UsuarioMapper.java
+│   │   │   ├── model/
+│   │   │   │   ├── Articulo.java
+│   │   │   │   ├── Cliente.java
+│   │   │   │   ├── Compra.java
+│   │   │   │   ├── Producto.java
+│   │   │   │   ├── Rol.java
+│   │   │   │   ├── Usuario.java
+│   │   │   │   └── Venta.java
+│   │   │   ├── repository/
+│   │   │   │   ├── ArticulosRepository.java
+│   │   │   │   ├── ClientesRepository.java
+│   │   │   │   ├── ComprasRepository.java
+│   │   │   │   ├── ProductosRepository.java
+│   │   │   │   ├── RolesRepository.java
+│   │   │   │   ├── UsuarioRepository.java
+│   │   │   │   └── VentasRepository.java
+│   │   │   └── service/
+│   │   │       ├── ArticulosService.java
+│   │   │       ├── ClientesService.java
+│   │   │       ├── ComprasService.java
+│   │   │       ├── ProductosService.java
+│   │   │       ├── RolesService.java
+│   │   │       ├── UsuarioService.java
+│   │   │       ├── VentasService.java
+│   │   │       └── impl/
+│   │   │           ├── ArticulosServiceImpl.java
+│   │   │           ├── ClientesServiceImpl.java
+│   │   │           ├── ComprasServiceImpl.java
+│   │   │           ├── ProductosServiceImpl.java
+│   │   │           ├── RolesServiceImpl.java
+│   │   │           ├── UsuarioServiceImpl.java
+│   │   │           └── VentasServiceImpl.java
+│   │   └── resources/
+│   │       ├── application-dev.yaml
+│   │       └── application.yaml
+│   ├── target/              
+│   ├── .dockerignore
+│   ├── .env
+│   ├── datos.env.txt
+│   ├── Dockerfile          
 │   ├── mvnw
 │   ├── mvnw.cmd
 │   ├── pom.xml
-│   └── src/
-│       ├── main/java/com/soulink/
-│       │   ├── config/
-│       │   │       EnvConfig.java
-│       │   │       JwtAuthenticationFilter.java
-│       │   │       JwtTokenProvider.java
-│       │   │       PasswordEncoderConfig.java
-│       │   │       SecurityConfig.java
-│       │   ├── controller/
-│       │   │       ArticulosController.java
-│       │   │       ClientesController.java
-│       │   │       ComprasController.java
-│       │   │       ProductosController.java
-│       │   │       RolesController.java
-│       │   │       UsuarioController.java
-│       │   │       VentasController.java
-│       │   ├── dto/
-│       │   │   ├── request/
-│       │   │   │       LoginRequestDTO.java
-│       │   │   │       UsuarioRegisterDTO.java
-│       │   │   │       UsuarioUpdateDTO.java
-│       │   │   └── response/
-│       │   │           LoginResponseDTO.java
-│       │   │           UsuarioResponseDTO.java
-│       │   ├── exception/
-│       │   │       BadRequestException.java
-│       │   │       ErrorResponseDTO.java
-│       │   │       GlobalExceptionHandler.java
-│       │   │       ResourceNotFoundException.java
-│       │   │       UnauthorizedException.java
-│       │   ├── mapper/
-│       │   │       UsuarioMapper.java
-│       │   ├── model/
-│       │   │       Articulo.java
-│       │   │       Cliente.java
-│       │   │       Compra.java
-│       │   │       Producto.java
-│       │   │       Rol.java
-│       │   │       Usuario.java
-│       │   │       Venta.java
-│       │   ├── repository/
-│       │   │       ArticulosRepository.java
-│       │   │       ClientesRepository.java
-│       │   │       ComprasRepository.java
-│       │   │       ProductosRepository.java
-│       │   │       RolesRepository.java
-│       │   │       UsuarioRepository.java
-│       │   │       VentasRepository.java
-│       │   └── service/
-│       │           ArticulosService.java
-│       │           ClientesService.java
-│       │           ComprasService.java
-│       │           ProductosService.java
-│       │           RolesService.java
-│       │           UsuarioService.java
-│       │           VentasService.java
-│       │           impl/
-│       │               ArticulosServiceImpl.java
-│       │               ClientesServiceImpl.java
-│       │               ComprasServiceImpl.java
-│       │               ProductosServiceImpl.java
-│       │               RolesServiceImpl.java
-│       │               UsuarioServiceImpl.java
-│       │               VentasServiceImpl.java
-│       └── resources/
-│               application-dev.yml
-│               application-prod.yml
+│   └── SoulinkApplication.java
 │
-├── docs/                     <-- Copia del frontend para GitHub Pages
+├── docs/                     <-- Copia para GitHub Pages (si la necesitas)
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── Conejo/
 │   │   │   ├── MerchConsejin/
-│   │   │   └── team/
+│   │   │   ├── team/
 │   ├── pages/
 │   │   ├── acerca.html
 │   │   ├── servicios.html
 │   │   ├── contacto.html
 │   │   ├── tienda.html
 │   │   ├── carrito.html
+│   │   ├── checkout.html                
 │   │   ├── configuracion.html
 │   │   ├── colaboraciones.html
 │   │   ├── perfil.html
@@ -258,23 +278,21 @@ proyecto-soulink/
 │   ├── js/
 │   │   ├── login.js
 │   │   ├── config.js
-│   │   └── soulink.js
+│   │   ├── soulink.js
 │   ├── css/
 │   │   ├── responsive.css
 │   │   └── styles.css
 │   ├── data/
 │   │   ├── usuarios.json
+│   │   ├── productos.json               
 │   │   ├── DER_soulink.png
-│   │   ├── soulink.sql
-│   │   └── productos.json
-│   ├── index.html
-│   └── README.md
-│
+│   │   └── soulink.sql
+│   ├── .env
+│   └── index.html
+├── ACCESO LOGIN Y ADMIN.txt
 ├── .gitignore
 ├── .gitattributes
-└── README.md
-                
-
+└── README.md                            
 ```
 ## 📸 Screenshot 1 - Sección "Acerca de"
 
@@ -364,6 +382,7 @@ proyecto-soulink/
 ## 📸 Screenshot 22 - DBeaver - Usuarios CIFRADOS
 
 ![DBeaver - Usuarios CIFRADOS](frontend/assets/images/ss_bdcifrada.png)
+
 
 
 
